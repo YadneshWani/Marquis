@@ -1,20 +1,83 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
 
-export default function App() {
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+import LoginScreen from './Components/Login';
+import HomeScreen from './Components/Home';
+import DailyHelpScreen from './Components/DailyHelp';
+import InvitesScreen from './Components/Invites';
+import ViewAllScreen from './Components/ViewAll';
+import CommunicationScreen from './Components/Communication';
+import HelpDeskScreen from './Components/HelpDesk';
+import AmenitiesScreen from './Components/Amenities';
+import ResidentScreen from './Components/Resident';
+
+import ProfileScreen from './Components/Profile';
+import CommunityScreen from './Components/Community';
+import ActionScreen from './Components/ActionBottomSheet';
+import DirectoryScreen from './Components/Service';
+
+import EmergencyNumberScreen from './Components/EmergencyNumber';
+import MainController from './Components/MainController';
+import MainControllerScreen from './Components/MainController';
+
+
+
+//import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Modal } from 'react-native-paper';
+
+const Stack = createNativeStackNavigator();
+
+
+
+const MyStack = () => {
+  const Tab = createBottomTabNavigator();
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+    <SafeAreaProvider>
+    <NavigationContainer >
+      
+      <Stack.Navigator
+     
+      >
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ title: 'Welcome', headerShown:false}}
+          
+        />
+        <Stack.Screen name="MainController" component={MainControllerScreen} options={{title:'BA/704', headerShown:false }}
+        />
+       <Stack.Screen options={{title :"Daily Help"}} name="DailyHelp" component={DailyHelpScreen}/>
+       <Stack.Screen name='Invites' component={InvitesScreen}/>
+       <Stack.Screen options={{title :"Activities"}}name='ViewAll' component={ViewAllScreen}/>
+       <Stack.Screen options={{title :"Communications"}}name='Communication' component={CommunicationScreen}/>
+       <Stack.Screen options={{title :"Help Desk"}}name='HelpDesk' component={HelpDeskScreen}/>
+       <Stack.Screen options={{title :"Emergency No.s"}}name='EmergencyNumber' component={EmergencyNumberScreen}/>
+       <Stack.Screen options={{title :"Amenities"}}name='Amenities' component={AmenitiesScreen}/>
+       <Stack.Screen options={{title :"Residents"}}name='Resident' component={ResidentScreen}/>
+       <Stack.Screen options={{title :"Modal"}}name='ActionBottomSheet' component={ActionScreen}/>
+{/*       
+      //Navigation bar */}
+       {/* <Stack.Screen name="Community" component={CommunityScreen}/>
+        <Stack.Screen name="Actions" component={ActionScreen}/>
+        <Stack.Screen name="Directory" component={DirectoryScreen}/>
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+        */}
+      </Stack.Navigator>
+    
+        </NavigationContainer>
+        
+   
+       {/* <BottomNavigator/>   */}
+   
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+      
+    </SafeAreaProvider>
+    
+  );
+};
+
+export default MyStack
