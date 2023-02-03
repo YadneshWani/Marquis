@@ -1,7 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 
 import {View,Text,StyleSheet,FlatList,TouchableOpacity} from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { EvilIcons } from '@expo/vector-icons';
+import { Modal } from "react-native-paper";
+
 
 
 const Once = [
@@ -19,15 +22,33 @@ const Once = [
     },
 ]
 const PreAprroveDialogBox=()=>{
+    const [modalVisible, setModalVisible] = useState(false); 
     return(
+        // <Modal
+        //     animationType="slide"
+        //     transparent={true}
+        //     visible={modalVisible}
+                    
+        //     onRequestClose={() => {
+        //     Alert.alert("Modal has been closed.");
+        //     setModalVisible(!modalVisible);
+                    
+        //     }} 
+        // >
         <View style={styles.container}>
-            <View style={{flexDirection:"row",marginTop:8}}>
+            
+            <View style={{flexDirection:"row",marginTop:8,justifyContent:"space-between"}}>
                 <TouchableOpacity>
-                    <Text style={{marginRight:100,color:'#6E6E6E'}}>Once</Text>
+                    <Text style={{marginLeft:10,color:'#6E6E6E'}}>Once</Text>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Text style={{color:'#6E6E6E'}}>Frequently</Text>
+                    <Text style={{marginLeft:50,color:'#6E6E6E'}}>Frequently</Text>
                 </TouchableOpacity>
+            
+                <TouchableOpacity>
+                    <EvilIcons style={{marginLeft:100}}name="close" size={24} color="black"  />
+                </TouchableOpacity>
+            
             </View>
             <Text style={{color:'#D9D9D9'}}>________________________________________</Text>
             <View>
@@ -52,6 +73,7 @@ const PreAprroveDialogBox=()=>{
                  )}
              />
         </View>
+        // </Modal>
     )
 }
 

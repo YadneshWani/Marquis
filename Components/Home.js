@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { StyleSheet,View,Text, ScrollView, TouchableOpacity,ImageBackground,Image,Modal,} from 'react-native';
+import { StyleSheet,View,Text, ScrollView, TouchableOpacity,ImageBackground,Image,Modal,TouchableWithoutFeedback,} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from "./Header";
 import PreAprroveDialogBox from "./PreAprroveDialogBox";
@@ -33,18 +33,24 @@ const [modalVisible, setModalVisible] = useState(false);
            <SafeAreaView> 
             <Header/>
             <ScrollView>
+            
             <Modal
                     animationType="slide"
                     transparent={true}
                     visible={modalVisible}
                     
-                    onRequestClose={() => {
+                     onRequestClose={() => {
                     Alert.alert("Modal has been closed.");
                     setModalVisible(!modalVisible);
                     
-                    }}
+                    }} 
             >
+                    {/* ()=>setModalVisible(!modalVisible)}></TouchableWithoutFeedback> */}
+                    
                     <PreAprroveDialogBox/>
+                    
+            </Modal>
+            
             {/*        <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <Text style={styles.modalText}>Hello World!</Text>
@@ -56,12 +62,13 @@ const [modalVisible, setModalVisible] = useState(false);
                         </Pressable>
                     </View>
                     </View>*/}
-            </Modal>
+                   
+            
             <View style={styles.container}>
             <View style ={styles.VisitorsContainer}>
                 <Text style={styles.Headings}>Visitors</Text>
 
-                <View style={{flexDirection:"row",alignSelf:'left'}}> 
+                <View style={{flexDirection:"row",borderWidth:1}}> 
                 <TouchableOpacity onPress={()=>{navigation.navigate('DailyHelp')}}>
                     <ImageBackground source={background} resizeMode="cover" style={styles.VisitorButtons}>
                         <Octicons name="person-add" size={24} color="white" style={{alignSelf:"center"}}/>
@@ -88,7 +95,7 @@ const [modalVisible, setModalVisible] = useState(false);
                 </TouchableOpacity>
                 </View>
 
-                <View style={{flexDirection:"row",alignSelf:'left'}}>
+                <View style={{flexDirection:"row"}}>
                         <Text style={{width:54,height:30,fontSize:12,marginLeft:8,textAlign:"center",marginTop:3,}}>Add Daily Help</Text>
                         <Text style={{width:54,height:30,fontSize:12,marginLeft:8,textAlign:"center",marginTop:3,}}>Pre Approve</Text>
                         <Text style={{width:54,height:30,fontSize:12,marginLeft:8,textAlign:"center",marginTop:3,}}>Invites</Text>
@@ -98,10 +105,12 @@ const [modalVisible, setModalVisible] = useState(false);
 
 
             </View>
+            <View >
                 <Text style={styles.NoticeHeading}>Noticeboard</Text>
+            </View>
 
             <View style={styles.NoticeContainer}>
-                <Text style={{color:'#585858', alignSelf:'left',marginLeft:8}}>Lorem ipsum dolor ci et. Dummy text.</Text>
+                <Text style={{color:'#585858',marginLeft:8}}>Lorem ipsum dolor ci et. Dummy text.</Text>
             </View>
 
             <View style={styles.ServiceContainer}>
@@ -177,7 +186,7 @@ const [modalVisible, setModalVisible] = useState(false);
             <View style={styles.PaymentContainer}>
                 <Text style={styles.Headings}>Payment</Text>
 
-                <View style={{flexDirection:"row",alignSelf:'left'}}> 
+                <View style={{flexDirection:"row",}}> 
                     <TouchableOpacity style={styles.PaymentButtons}>
                     </TouchableOpacity>
 
@@ -189,7 +198,7 @@ const [modalVisible, setModalVisible] = useState(false);
                 </View>
 
 
-                <View style={{flexDirection:"row",alignSelf:'left'}}>
+                <View style={{flexDirection:"row",}}>
                         <Text style={{width:54,height:30,fontSize:12,marginLeft:8,textAlign:"center",marginTop:3,}}>Society Charges</Text>
                         <Text style={{width:54,height:30,fontSize:12,marginLeft:8,textAlign:"center",marginTop:3,}}>Utility Payments</Text>
                         <Text style={{width:54,height:30,fontSize:12,marginLeft:8,textAlign:"center",marginTop:3,}}>Rent</Text>         
@@ -228,7 +237,7 @@ const [modalVisible, setModalVisible] = useState(false);
 const styles = StyleSheet.create({
     container: {
         flex:1,
-      backgroundColor: '#DEE7D7',  
+      backgroundColor: "#DEE7D7",  
       alignItems:"center",
       //opacity:0.5,
       //backgroundColor: rgba(255, 0, 0, 0.2)
@@ -237,38 +246,39 @@ const styles = StyleSheet.create({
     },
 
     VisitorsContainer:{
-        backgroundColor:'white',
+        backgroundColor:"white",
         width:352,
         height:109,
         borderRadius:12,
         alignItems:"center",
         marginTop:20,
-        shadowOffset:{width:-2,height:'0.12'},
-        shadowOpacity:'0.12',
+        shadowOffset:{width:-2,height:0.12},
+        shadowOpacity:0.12,
         //flexDirection:'row',
     },
 
     Headings:{
-        fontWeight:'700',
-        fontFamily:'Gilroy',
-        fontStyle:'normal',
+        fontWeight:"700",
+        //fontFamily:'Gilroy',
+        fontStyle:"normal",
         marginLeft:8,
         fontSize:16,
         lineHeight:24,
-        alignSelf:'left',
+       // alignItems:"left"
+            //alignSelf:'left',
     },
     NoticeHeading:{
-        fontWeight:'700',
-        fontFamily:'Gilroy',
-        fontStyle:'normal',
+        fontWeight:"700",
+       // fontFamily:'Gilroy',
+        fontStyle:"normal",
         marginLeft:26,
         fontSize:16,
         lineHeight:24,
-        alignSelf:'left',
-        marginTop:18
+        //alignSelf:'left',
+        marginTop:18,
     },
     NoticeContainer:{
-        backgroundColor:'#FFF4D2',
+        backgroundColor:"#FFF4D2",
         width:352,
         height:77,
         borderRadius:12,
@@ -276,12 +286,12 @@ const styles = StyleSheet.create({
         margin:16,
         marginTop:8,
         borderWidth:1,
-        borderColor:'#CABE9B'
+        borderColor:"#CABE9B"
 
    },
 
    ServiceContainer:{
-        backgroundColor:'white',
+        backgroundColor:"white",
         width:352,
         height:282,
         borderRadius:12,
@@ -289,28 +299,28 @@ const styles = StyleSheet.create({
         alignItems:"center",
         margin:16,
         marginTop:8,
-        shadowOffset:{width:-2,height:'0.12'},
-        shadowOpacity:'0.12',
+        shadowOffset:{width:-2,height:0.12},
+        shadowOpacity:0.12,
         justifyContent:"center"
    },
    PaymentContainer:{
-        backgroundColor:'white',
+        backgroundColor:"white",
         width:352,
         height:113,
         borderRadius:12,
         alignItems:"center",
         marginTop:16,
         marginBottom:16,
-        shadowOffset:{width:-2,height:'0.12'},
-        shadowOpacity:'0.12',
+        shadowOffset:{width:-2,height:0.12},
+        shadowOpacity:0.12,
    },
 
    VisitorButtons:{
     width:40,
     height:40,
-    backgroundColor:'#6E815F',
+    backgroundColor:"#6E815F",
     borderRadius:12,
-    alignSelf:'left',
+    //alignSelf:'left',
     marginLeft:12,
     marginTop:5,
     marginRight:12,
@@ -320,7 +330,7 @@ const styles = StyleSheet.create({
    },
    NavigationBar:{
 
-    backgroundColor:'white',
+    backgroundColor:"white",
     width:388,
     height:56,
    
@@ -340,7 +350,7 @@ const styles = StyleSheet.create({
 
    },
    Header:{
-    backgroundColor:'white',
+    backgroundColor:"white",
     width:388,
     height:48,
     

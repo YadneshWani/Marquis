@@ -1,7 +1,9 @@
-import React from "react";
+import {useState,useEffect} from "react";
 
 import {View,Text,StyleSheet,FlatList,TouchableOpacity} from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { ActivityIndicator } from "react-native-paper";
+import { getAmenityData } from "../Services/AmenityRequest";
 
 const persons = [
     {
@@ -34,26 +36,43 @@ const persons = [
     }
 ]
 const Amemities=()=>{
+  const[amenityArray,setAmenityArray] = useState([]);
+    async function getData(){
+        const amenityData = await getAmenityData();
+        setAmenityArray(amenityData.data);
+        console.log(data);
+    }
+    useEffect(()=>{
+        //   getHomeFeedData();
+        getData();
+    },[]);
+
     return(
         <View style={styles.container}>
             <View style={styles.ListItem}>
+             { 
+              amenityArray?
             <FlatList
       //numColumns={1}
-                 keyExtractor={(item)=>item.id}
-                 data={persons} 
-                 renderItem={({item}) => (
+                 data={amenityArray} 
+                 renderItem={({item,index}) => (
                 <View>
                     <TouchableOpacity style={{flexDirection:"row",justifyContent:"space-between"}}  >
                         <View>
                          <Text style={styles.item}>{item.name}</Text>  
-                         <Text style={{marginLeft:22,fontSize:12,color:'#6E6E6E'}}>Timing: {item.time}</Text>
+                         <Text style={{marginLeft:22,fontSize:12,color:'#6E6E6E'}}>{item.working_hours}</Text>
                          </View>         
                     </TouchableOpacity>
                     <Text style={{color:'#D9D9D9'}}>_____________________________________________</Text>
                 </View>
                 
                  )}
-             />
+                 keyExtractor={(item, index) => index}
+                 />
+
+                 : <ActivityIndicator size={"large"} />
+              }
+             
              </View>
         </View>
     )

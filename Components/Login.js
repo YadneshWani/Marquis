@@ -19,7 +19,7 @@ const Login=({navigation})=>{
       <StatusBar style="auto" />
 
 
-      <TouchableOpacity style={styles.ButtonStyle} activeOpacity={0.5} onPress={()=>{navigation.navigate('MainController')}}>
+      <TouchableOpacity style={styles.ButtonStyle} activeOpacity={0.5} >
             <Image
               source={require('../assets/google.png')}
               style={styles.ImageIconStyle}

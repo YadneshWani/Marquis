@@ -22,6 +22,9 @@ import DirectoryScreen from './Components/Service';
 import EmergencyNumberScreen from './Components/EmergencyNumber';
 import MainController from './Components/MainController';
 import MainControllerScreen from './Components/MainController';
+import AddUserScreen from './Components/AddUser';
+import AddDiscussionScreen from './Components/AddDiscussion';
+import DiscussionDetailScreen from './Components/DiscussionDetail'
 
 
 
@@ -43,14 +46,15 @@ const MyStack = () => {
      
       >
         <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{ title: 'Welcome', headerShown:false}}
+          name="Add User Detail"
+          component={AddUserScreen}
+          options={{ title: 'Marquis'}}
           
         />
         <Stack.Screen name="MainController" component={MainControllerScreen} options={{title:'BA/704', headerShown:false }}
         />
        <Stack.Screen options={{title :"Daily Help"}} name="DailyHelp" component={DailyHelpScreen}/>
+
        <Stack.Screen name='Invites' component={InvitesScreen}/>
        <Stack.Screen options={{title :"Activities"}}name='ViewAll' component={ViewAllScreen}/>
        <Stack.Screen options={{title :"Communications"}}name='Communication' component={CommunicationScreen}/>
@@ -59,6 +63,8 @@ const MyStack = () => {
        <Stack.Screen options={{title :"Amenities"}}name='Amenities' component={AmenitiesScreen}/>
        <Stack.Screen options={{title :"Residents"}}name='Resident' component={ResidentScreen}/>
        <Stack.Screen options={{title :"Modal"}}name='ActionBottomSheet' component={ActionScreen}/>
+       <Stack.Screen options={{title :"Start a Discussion"}}name='AddDiscussion' component={AddDiscussionScreen}/>
+       <Stack.Screen options={{title :"Discussion"}}name='DiscussionDetail' component={DiscussionDetailScreen}/>
 {/*       
       //Navigation bar */}
        {/* <Stack.Screen name="Community" component={CommunityScreen}/>

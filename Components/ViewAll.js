@@ -1,13 +1,29 @@
-import React from "react";
+import {useState,useEffect} from "react";
 
-import {View,Text,StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
+import {View,Text,StyleSheet, ScrollView, TouchableOpacity, FlatList,ActivityIndicator} from 'react-native';
 import { AntDesign } from '@expo/vector-icons'; 
 import { Octicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { getActivityData } from "../Services/ActivityRequest";
+import call from 'react-native-phone-call';
 
 const ViewAll=()=>{
+    const[activityArray,setActivityArray] = useState([]);
+    async function getData(){
+        const activityData = await getActivityData();
+        setActivityArray(activityData.data);
+        console.log(data);
+    }
+    useEffect(()=>{
+        //   getHomeFeedData();
+        getData();
+    },[]);
+
+    callFunction=()=>{
+        
+    }
     return(
-        <ScrollView>
+        
         <View style={styles.container} >
             <View style={{flexDirection:"row",marginTop:17,marginLeft:24,marginBottom:17,alignSelf:'left'}}>
                 <Text style={{color:'#6E6E6E'}}>Filter</Text>
@@ -16,38 +32,57 @@ const ViewAll=()=>{
                 <AntDesign style={{marginLeft:3,marginTop:2}} name="caretdown" size={12} color="black" />
             </View>
 
+            {
+                activityArray?
+                    <FlatList
+                        data={activityArray}
+                        renderItem={({ item, index }) => (
+                       
+                       <View style={styles.items}>
+                            <View style={{flexDirection:"row"}}>
+                                <View style={styles.itemProfile}></View>
+                                <View>
+                                    <Text style={styles.itemText}>{item.title}</Text>
+                                    <View style={styles.tag}>
+                                        <Text style={{marginLeft:14,color:'white',fontWeight:'700',fontSize:11,alignSelf:"center"}}>{item.access_details}</Text>
+                                        <Text style={{marginLeft:20,marginTop:0,color:'#6E6E6E',width:52,height:14,fontSize:12}}>12:00 am</Text>
+                                    </View>
+                                </View>
+                            </View>
+                            <View style={{flexDirection:"row"}}>
+                                <View><Text style={{width:60,height:14,marginTop:14,marginLeft:12,color:'#6E6E6E'}}>{item.name}</Text></View>
+                                <View style={styles.smallItemProfile}></View>
+                                <View><Text style={{width:58,height:14,marginTop:14,marginLeft:6,color:'#6E6E6E'}}>ZOMATO</Text></View>
+                            </View>
+                            <View style={{marginLeft:12,flexDirection:"row"}}>
+                                <Octicons name="person" size={16} color="black" />
+                                <Text style={{color:'#6E6E6E',marginLeft:7,}}>ALLOWED BY {item.allowed_by}</Text>
+                            </View>
+                            <Text style={{color:'#D9D9D9'}}>_______________________________________________</Text>
+                            <View style={{flexDirection:"row",justifyContent:"space-between",marginLeft:74}}>
+                                <TouchableOpacity onPress={()=>{
+                                    const contact=item.visitor_contact.toString();
+                                    const arg={
+                                        number:contact,
+                                        prompt: true,
+                                    }
+                                    call(arg).catch(console.error)
+                                }}>
+                                    <MaterialIcons name="local-phone" size={24} color="#00DB92" />
+                                </TouchableOpacity>
+                                <Text style={{marginRight:45,color:'#6E6E6E',fontWeight:'700',marginTop:8}}>Wrong Entry</Text>
+                            </View>
+                        </View >
+                        )}
+                        keyExtractor={(item, index) => index}
+                        />
+                        :<ActivityIndicator size={"large"} />
+            }
 
-            <View style={styles.items}>
-                <View style={{flexDirection:"row"}}>
-                    <View style={styles.itemProfile}></View>
-                    <View>
-                        <Text style={styles.itemText}>Delivery</Text>
-                        <View style={styles.tag}>
-                            <Text style={{marginLeft:14,color:'white',fontWeight:'700',fontSize:11,alignSelf:"center"}}>LEFT</Text>
-                            <Text style={{marginLeft:20,marginTop:0,color:'#6E6E6E',width:52,height:14,fontSize:12}}>12:00 am</Text>
-                        </View>
-                    </View>
-                </View>
-                <View style={{flexDirection:"row"}}>
-                    <View><Text style={{width:40,height:14,marginTop:14,marginLeft:12,color:'#6E6E6E'}}>Name</Text></View>
-                    <View style={styles.smallItemProfile}></View>
-                    <View><Text style={{width:58,height:14,marginTop:14,marginLeft:6,color:'#6E6E6E'}}>ZOMATO</Text></View>
-                </View>
-                <View style={{marginLeft:12,flexDirection:"row"}}>
-                    <Octicons name="person" size={16} color="black" />
-                    <Text style={{color:'#6E6E6E',marginLeft:7,}}>ALLOWED BY You</Text>
-                </View>
-                <Text style={{color:'#D9D9D9'}}>_______________________________________________</Text>
-                <View style={{flexDirection:"row",justifyContent:"space-between",marginLeft:74}}>
-                   <MaterialIcons name="local-phone" size={24} color="#00DB92" />
-                    <Text style={{marginRight:45,color:'#6E6E6E',fontWeight:'700',marginTop:8}}>Wrong Entry</Text>
-                </View>
-            </View >
 
 
 
-
-            <View style={styles.items}>
+            {/* <View style={styles.items}>
                 <View style={{flexDirection:"row"}}>
                     <View style={styles.itemProfile}></View>
                     <View>
@@ -113,7 +148,7 @@ const ViewAll=()=>{
                     <View>
                         <Text style={styles.itemText}>Delivery</Text>
                         <View style={styles.tag}>
-                            <Text style={{marginLeft:14,color:'white',fontWeight:'700',fontSize:11,alignSelf:"center"}}>LEFT</Text>
+                            <Text style={{marginLeft:14,color:'white',fontWeight:'700',fontSize:11,alignItems:"center"}}>LEFT</Text>
                             <Text style={{marginLeft:20,marginTop:0,color:'#6E6E6E',width:52,height:14,fontSize:12}}>12:00 am</Text>
                         </View>
                     </View>
@@ -132,11 +167,11 @@ const ViewAll=()=>{
                    <MaterialIcons name="local-phone" size={24} color="#00DB92" />
                     <Text style={{marginRight:45,color:'#6E6E6E',fontWeight:'700',marginTop:8}}>Wrong Entry</Text>
                 </View>
-            </View>
+            </View> */}
 
 
         </View>
-        </ScrollView>
+        
     )
 }
 
