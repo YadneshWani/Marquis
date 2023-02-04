@@ -6,8 +6,9 @@ import HomeScreen from './Home';
 // import LoginScreen from './Login';
 import ProfileScreen from './Profile';
 import CommunityScreen from './Community';
-import ActionScreen from './Actions';
+import ActionScreen from './ActionBottomSheet';
 import ServiceScreen from './Service';
+import { Button } from 'react-native';
 // import { Navigation } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
@@ -30,6 +31,7 @@ function MyTabs() {
           size=focused?size+5:size+5;
         }
         else if (route.name === 'Actions'){
+          
           iconName=focused ? "ios-add-circle" : "ios-add-circle";
           size=focused?size+35:size+35;
           color=focused?"#6E815F":"#6E815F";
@@ -57,11 +59,11 @@ function MyTabs() {
         <Tab.Screen name="Home" component={HomeScreen} options={{headerShown:false}}/>
         {/* <Tab.Screen name="Login" component={LoginScreen} />  */}
         <Tab.Screen name="Community" component={CommunityScreen}/>
+        
+        
         <Tab.Screen name="Actions" component={ActionScreen} option={{headerShown:false}}
         listeners={({navigation})=>({
           tabPress:event=>{
-            event.preventDefault();
-            navigation.navigate("ActionBottomSheet");
           }
         })}
         />

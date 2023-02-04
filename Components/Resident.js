@@ -1,12 +1,45 @@
-import React from "react";
+import {useState,useEffect} from "react";
 
 import {View,Text, StyleSheet, FlatList} from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import DropDownResident from "./DropDownResident";
+import { RadioButton } from 'react-native-paper';
+import { getSocietyData } from "../Services/SocietyRequest";
 
 const Resident=()=>{
+const [value, setValue] = useState('A');
 
-const data=[
+const[societyArray,setSocietyArray] = useState([]);
+const[wingData,setWingData]=useState([]);
+
+    async function getData(){
+        const societyData = await getSocietyData();
+        setSocietyArray(societyData.data);
+        for(let i=0;i<societyArray.length;i++)
+        {
+            if(societyData.data[i].society_id=='6YjbJ6i')
+            {
+                
+            }
+            
+        }
+        console.log(societyData.data[0].wings);
+        for(let i=0;i<wingData.length;i++)
+        {
+            for(let j=0;j<wingData[i].wing.floors;j++)
+            {
+
+            }
+        }
+    }
+    useEffect(()=>{
+        //   getHomeFeedData();
+        getData();
+    },[]);
+   // console.log(WingFloors);
+
+
+    const data=[
     {
         id:1,
         title:'1st Floor',
@@ -44,10 +77,16 @@ const data=[
         total:5
     },
 ];
-
+    // console.log(value);
     return(
         <SafeAreaView style={styles.container}>
+                      
+            <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
+                <RadioButton.Item label="Wing A" value="0" />
+                <RadioButton.Item label="Wing B" value="1" />
+            </RadioButton.Group>
             <View >
+            
                 <View style={styles.HeaderStyle}>
                     <View style={styles.Profile}>
                         
@@ -62,7 +101,7 @@ const data=[
                     data={data}
                     keyExtractor={(item)=>item.id.toString()}
                     renderItem={({item})=>(
-                        <DropDownResident title={item.title} name={item.name} id={item.id}/>
+                        <DropDownResident title="1 st floor" name="1st FLoor" id="1"/>
                     )}
                 />
             </View>

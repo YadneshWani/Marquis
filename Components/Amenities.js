@@ -40,7 +40,8 @@ const Amemities=()=>{
     async function getData(){
         const amenityData = await getAmenityData();
         setAmenityArray(amenityData.data);
-        console.log(data);
+        console.log(
+          data);
     }
     useEffect(()=>{
         //   getHomeFeedData();
@@ -49,7 +50,7 @@ const Amemities=()=>{
 
     return(
         <View style={styles.container}>
-            <View style={styles.ListItem}>
+            
              { 
               amenityArray?
             <FlatList
@@ -63,7 +64,7 @@ const Amemities=()=>{
                          <Text style={{marginLeft:22,fontSize:12,color:'#6E6E6E'}}>{item.working_hours}</Text>
                          </View>         
                     </TouchableOpacity>
-                    <Text style={{color:'#D9D9D9'}}>_____________________________________________</Text>
+                    <View style={{borderWidth:0.5,borderColor:'#D9D9D9',width:380,marginLeft:-15,marginTop:30}}></View>
                 </View>
                 
                  )}
@@ -73,7 +74,7 @@ const Amemities=()=>{
                  : <ActivityIndicator size={"large"} />
               }
              
-             </View>
+             
         </View>
     )
 }
@@ -81,7 +82,7 @@ const Amemities=()=>{
 const styles = StyleSheet.create({
     container: {
       flex:1,
-      backgroundColor:'#DEE7D7',
+      backgroundColor:'white',
       alignItems:"center"
     },
     ListItem:{

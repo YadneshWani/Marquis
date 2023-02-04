@@ -24,8 +24,9 @@ import MainController from './Components/MainController';
 import MainControllerScreen from './Components/MainController';
 import AddUserScreen from './Components/AddUser';
 import AddDiscussionScreen from './Components/AddDiscussion';
-import DiscussionDetailScreen from './Components/DiscussionDetail'
-
+import DiscussionDetailScreen from './Components/DiscussionDetail';
+import DailyHelpDetailScreen from './Components/DailyHelpDetail';
+import DocumentScreen from './Components/Document';
 
 
 //import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -65,7 +66,9 @@ const MyStack = () => {
        <Stack.Screen options={{title :"Modal"}}name='ActionBottomSheet' component={ActionScreen}/>
        <Stack.Screen options={{title :"Start a Discussion"}}name='AddDiscussion' component={AddDiscussionScreen}/>
        <Stack.Screen options={{title :"Discussion"}}name='DiscussionDetail' component={DiscussionDetailScreen}/>
-{/*       
+       <Stack.Screen options={{title :"Daily Help"}}name='DailyHelpDetail' component={DailyHelpDetailScreen}/>
+       <Stack.Screen options={{title :"Documents"}}name='Document' component={DocumentScreen}/>
+{/*      
       //Navigation bar */}
        {/* <Stack.Screen name="Community" component={CommunityScreen}/>
         <Stack.Screen name="Actions" component={ActionScreen}/>

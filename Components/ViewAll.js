@@ -6,6 +6,7 @@ import { Octicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { getActivityData } from "../Services/ActivityRequest";
 import call from 'react-native-phone-call';
+import axios from "axios";
 
 const ViewAll=()=>{
     const[activityArray,setActivityArray] = useState([]);
@@ -19,8 +20,14 @@ const ViewAll=()=>{
         getData();
     },[]);
 
-    callFunction=()=>{
-        
+    deleteEntry=(activityId)=>{
+        axios({
+            method:'POST',
+            url : 'https://marquis-backend.onrender.com/activity/deleteActivity',
+            data:{
+              activity_id:activityId  
+            }
+        });
     }
     return(
         
@@ -70,7 +77,9 @@ const ViewAll=()=>{
                                 }}>
                                     <MaterialIcons name="local-phone" size={24} color="#00DB92" />
                                 </TouchableOpacity>
-                                <Text style={{marginRight:45,color:'#6E6E6E',fontWeight:'700',marginTop:8}}>Wrong Entry</Text>
+                                <TouchableOpacity onPress={()=>{deleteEntry(item.activity_id)}}>
+                                    <Text style={{marginRight:45,color:'#6E6E6E',fontWeight:'700',marginTop:8}}>Wrong Entry</Text>
+                                </TouchableOpacity>
                             </View>
                         </View >
                         )}

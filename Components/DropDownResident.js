@@ -1,10 +1,35 @@
-import React, { useRef } from "react";
+import React, { useRef,useEffect } from "react";
 import {View,Text, StyleSheet, FlatList, Animated} from 'react-native';
 import { TouchableOpacity } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
+import { getSocietyData } from "../Services/SocietyRequest";
 
 const DropDownResident=({title,name})=>{
+
+    const[societyArray,setSocietyArray] = useState([]);
+const[wingData,setWingData]=useState([]);
+
+    async function getData(){
+        const societyData = await getSocietyData();
+        setSocietyArray(societyData.data);
+        for(let i=0;i<societyArray.length;i++)
+        {
+            if(societyData.data[i].society_id=='6YjbJ6i')
+            {
+                setWingData(societyData.data[i].wings);
+            }
+            
+        }
+        
+    }
+    useEffect(()=>{
+        //   getHomeFeedData();
+        getData();
+        console.log("Wing Data "+ wingData);
+    },[]);
+
+
     const data=[
         {
             id:1,
