@@ -21,6 +21,7 @@
     "react-dom": "18.0.0",
     "react-native": "0.69.6",
     "react-native-btr": "^2.2.0",
+    "react-native-date-picker": "^4.2.6",
     "react-native-gesture-handler": "^2.9.0",
     "react-native-pager-view": "5.4.24",
     "react-native-paper": "^4.12.5",

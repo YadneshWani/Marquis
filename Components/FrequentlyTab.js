@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import DatePicker from "./DatePicker";
+import DatePicker from "./StartDatePicker";
 const FrequentlyTab = () => {
   const Once = [
     {
