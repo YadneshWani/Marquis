@@ -13,6 +13,9 @@ const StartDatePicker = () => {
     setDate(currentDate);
   };
 
+  //const d = new Date(date.setDate(date.getDate() + 30));
+  //console.log(d);
+
   const showMode = (currentMode) => {
     if (Platform.OS === "ios") {
       console.log("IOS");
@@ -33,17 +36,29 @@ const StartDatePicker = () => {
 
   return (
     <View>
-      <Text
-        style={{
-          fontSize: 16,
-          fontWeight: "500",
-          marginTop: 10,
-          marginLeft: 40,
-        }}
-      >
-        Start Date
-      </Text>
-      <View style={{}}>
+      <View style={{ flexDirection: "row" }}>
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: "500",
+            marginTop: 10,
+            marginLeft: 40,
+          }}
+        >
+          Start Date
+        </Text>
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: "500",
+            marginTop: 10,
+            marginLeft: 50,
+          }}
+        >
+          End Date
+        </Text>
+      </View>
+      <View style={{ flexDirection: "row" }}>
         {true && (
           <DateTimePicker
             testID="dateTimePicker"
@@ -57,15 +72,36 @@ const StartDatePicker = () => {
               height: 30,
               marginLeft: 35,
               marginTop: 5,
-              backgroundColor: "white",
+              backgroundColor: "#DEE7D7",
+              borderColor: "black",
+            }} //add this
+          />
+        )}
+
+        {true && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode={mode}
+            is24Hour={true}
+            maximumDate={new Date(date.setDate(date.getDate() + 30))}
+            minimumDate={new Date(date.setDate(date.getDate() - 30))}
+            onChange={onChange}
+            style={{
+              marginTop: 0,
+              width: 85,
+              height: 30,
+              marginLeft: 35,
+              marginTop: 5,
+              backgroundColor: "#DEE7D7",
               borderColor: "black",
             }} //add this
           />
         )}
       </View>
-      <Text style={{ fontSize: 16, fontWeight: "500" }}>
+      {/* <Text style={{ fontSize: 16, fontWeight: "500" }}>
         {date.toLocaleString()}
-      </Text>
+      </Text> */}
     </View>
   );
 };
