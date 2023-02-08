@@ -18,6 +18,7 @@ import ProfileScreen from "./Components/Profile";
 import CommunityScreen from "./Components/Community";
 import ActionScreen from "./Components/ActionBottomSheet";
 import DirectoryScreen from "./Components/Service";
+import ServiceScreen from "./Components/Service";
 
 import EmergencyNumberScreen from "./Components/EmergencyNumber";
 import MainController from "./Components/MainController";
@@ -117,6 +118,26 @@ const MyStack = () => {
             options={{ title: "Household" }}
             name="HouseHold"
             component={HouseHoldScreen}
+          />
+          <Stack.Screen
+            options={{ title: "Home", headerShown: false }}
+            name="Home"
+            component={HomeScreen}
+          />
+          <Stack.Screen
+            options={{ title: "Community" }}
+            name="Community"
+            component={CommunityScreen}
+          />
+          <Stack.Screen
+            options={{ title: "Service" }}
+            name="Service"
+            component={ServiceScreen}
+          />
+          <Stack.Screen
+            options={{ title: "Profile" }}
+            name="Profile"
+            component={ProfileScreen}
           />
           {/*      
       //Navigation bar */}

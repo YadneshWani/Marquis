@@ -33,6 +33,7 @@ import DirectoryScreen from "./Service";
 import NoticeBoard from "./NoticeBoard";
 
 import { NavigationContainer } from "@react-navigation/native";
+import CustomBottomBar from "./CustomBottomBar";
 
 const Home = ({ navigation, enableBackdropDismiss, show, onDismiss }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -478,14 +479,16 @@ const Home = ({ navigation, enableBackdropDismiss, show, onDismiss }) => {
               </Text>
             </View>
           </View>
+        </ScrollView>
+        <CustomBottomBar Style={{}} />
 
-          {/* <NavigationContainer independent={true}>
+        {/* <NavigationContainer independent={true}>
         <Tab.Navigator
         initialRouteName="Home " 
         >
         {/* <Tab.Screen name="Home" component={this}/> */}
-          {/* <Tab.Screen name="Login" component={LoginScreen} />  */}
-          {/* <Tab.Screen name="Community" component={CommunityScreen}/>
+        {/* <Tab.Screen name="Login" component={LoginScreen} />  */}
+        {/* <Tab.Screen name="Community" component={CommunityScreen}/>
         <Tab.Screen name="Actions" component={ActionScreen}/>
         <Tab.Screen name="Directory" component={DirectoryScreen}/>
         <Tab.Screen name="Profile" component={ProfileScreen} />
@@ -493,7 +496,6 @@ const Home = ({ navigation, enableBackdropDismiss, show, onDismiss }) => {
     </Tab.Navigator>
     </NavigationContainer>
          */}
-        </ScrollView>
       </View>
     </SafeAreaView>
   );
