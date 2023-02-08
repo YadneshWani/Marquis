@@ -82,10 +82,10 @@ function CustomBottomBar() {
             <ScrollView style={{ backgroundColor: "white" }}>
               <Text style={styles.heading}>Pre Approve Entry</Text>
               <View style={styles.preApproveEntryContainer}>
-                <Ionicons name="person-outline" size={40} color="#434F39" />
-                <AntDesign name="car" size={40} color="#434F39" />
-                <Feather name="truck" size={40} color="#434F39" />
-                <Feather name="home" size={40} color="#434F39" />
+                <Ionicons name="person-outline" size={30} color="#434F39" />
+                <AntDesign name="car" size={30} color="#434F39" />
+                <Feather name="truck" size={30} color="#434F39" />
+                <Feather name="home" size={30} color="#434F39" />
               </View>
               <View style={styles.PreApproveTextStyle}>
                 <Text>Guest</Text>
@@ -96,9 +96,9 @@ function CustomBottomBar() {
 
               <Text style={styles.heading}>Security</Text>
               <View style={styles.securityContainer}>
-                <MaterialIcons name="security" size={40} color="#434F39" />
-                <SimpleLineIcons name="envelope" size={40} color="#434F39" />
-                <Feather name="truck" size={40} color="#434F39" />
+                <MaterialIcons name="security" size={30} color="#434F39" />
+                <SimpleLineIcons name="envelope" size={30} color="#434F39" />
+                <Feather name="truck" size={30} color="#434F39" />
               </View>
               <View style={styles.SecurityTextStyle}>
                 <Text>Security{"\n"}Alert</Text>
@@ -110,7 +110,7 @@ function CustomBottomBar() {
               <View style={styles.communityContainer}>
                 <MaterialCommunityIcons
                   name="message-processing-outline"
-                  size={40}
+                  size={30}
                   color="#434F39"
                 />
               </View>
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     color: "#6E6E6E",
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "500",
     marginTop: 5,
     marginBottom: 18,
