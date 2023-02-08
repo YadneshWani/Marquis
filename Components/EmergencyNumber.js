@@ -26,7 +26,7 @@ const EmergencyNumber = () => {
     setSocietyArray(societyData.data);
     setLoading(false);
     for (let i = 0; i < societyArray.length; i++) {
-      if (societyData.data[i].society_id == "6YjbJ6i") {
+      if (societyData.data[i].society_id == "jYzPlMP") {
         //console.log("Inside if");
         for (let j = 0; j < societyData.data[i].emergency_numbers.length; j++) {
           helperData.push(societyData.data[i].emergency_numbers[j]);

@@ -25,7 +25,7 @@ const DailyHelp = ({ navigation }) => {
     setSocietyArray(societyData.data);
 
     societyArray.map((item) => {
-      if (item.society_id == "6YjbJ6i") {
+      if (item.society_id == "jYzPlMP") {
         console.log("Inside New If");
         item.emergency_numbers.map((emgNo) => {
           helpData.push(emgNo);
