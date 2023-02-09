@@ -7,58 +7,100 @@ import { RadioButton } from "react-native-paper";
 import { getSocietyData } from "../Services/SocietyRequest";
 import { SelectList } from "react-native-dropdown-select-list";
 
+let flatData = [];
+// const wingData = [];
 const Resident = () => {
+  const wData = [];
+
+  let id = 0;
+
+  const fData = [];
   const [value, setValue] = useState("A");
   const [selected, setSelected] = useState([]);
+  const [wingData, setWingData] = useState([]);
+  const [floorData, setFloorData] = useState([]);
+  const [societyArray, setSoceityArray] = useState([]);
+  async function getData() {
+    const societyData = await getSocietyData();
+    if (societyData != undefined) {
+      setSoceityArray(societyData.data);
 
-  const data = [
-    {
-      id: 1,
-      title: "1st Floor",
-      name: "Lorem Ipsum",
-      total: 5,
-    },
-    {
-      id: 2,
-      title: "2nd Floor",
-      name: "Lorem Ipsum",
-      total: 5,
-    },
-    {
-      id: 3,
-      title: "3rd Floor",
-      name: "Lorem Ipsum",
-      total: 5,
-    },
-    {
-      id: 4,
-      title: "4th Floor",
-      name: "Lorem Ipsum",
-      total: 5,
-    },
-    {
-      id: 5,
-      title: "5th Floor",
-      name: "Lorem Ipsum",
-      total: 5,
-    },
-    {
-      id: 6,
-      title: "6th Floor",
-      name: "Lorem Ipsum",
-      total: 5,
-    },
-  ];
+      for (let i = 0; i < societyArray.length; i++) {
+        if (societyArray[i].society_id == "jYzPlMP") {
+          for (let j = 0; j < societyArray[i].wings.length; j++) {
+            wData.push({
+              key: j + 1,
+              value: societyArray[i].wings[j].wing.name,
+              floor: societyArray[i].wings[j].wing.floor,
+              flat: societyArray[i].wings[j].wing.flat_per_floor_count,
+            });
+          }
+        }
+        setWingData(wData);
+      }
+    } else {
+      console.log("undefined");
+    }
+  }
+  useEffect(() => {
+    //   getHomeFeedData();
+    getData();
+  }, []);
 
-  const selectListData = [
-    { key: "1", value: "Mobiles", disabled: true },
-    { key: "2", value: "Appliances" },
-    { key: "3", value: "Cameras" },
-    { key: "4", value: "Computers", disabled: true },
-    { key: "5", value: "Vegetables" },
-    { key: "6", value: "Diary Products" },
-    { key: "7", value: "Drinks" },
-  ];
+  const displayFloors = () => {
+    let id1 = 0;
+    flatData = [];
+    console.log("inside display ");
+    for (let j = 0; j < wingData.length; j++) {
+      console.log("inside j for ");
+      if (selected == wingData[j].value) {
+        {
+          for (let k = 0; k < wingData[j].floor; k++) {
+            fData.push({
+              id: ++id,
+              title: k + 1 + " Floor",
+              name: "lorem Ipsum",
+              total: wingData[j].flat,
+            });
+            if (k < wingData[j].flat) {
+              flatData.push({
+                id: ++id1,
+                name: "Lorem Ipsum",
+              });
+            }
+          }
+          // for (let i = 0; i < wingData[j].flat; i++) {
+          //   flatData.push({
+          //     id: ++id,
+          //     name: "Lorem Ipsum",
+          //   });
+          // }
+        }
+      }
+    }
+
+    console.log("Floor Data " + flatData);
+    setFloorData(fData);
+  };
+  // for (let i = 0; i < societyArray.length; i++) {
+  //   for (let j = 0; j < societyArray[i].wings.length; j++) {
+  //     if (selected == societyArray[i].wings[j].wing.name) {
+  //       for (let k = 0; k < societyArray[i].wings[j].wing.floor; k++)
+  //         fData.push({
+  //           id: k + 1,
+  //           title: k + 1 + " Floor",
+  //           total: societyArray[i].wings[j].wing.flat_per_floor_count,
+  //         });
+  //     }
+  //   }
+  // }
+  // console.log(fData);
+  // setFloorData(fData);
+
+  console.log("Society Array " + selected);
+  console.log("Flat Data 1 " + flatData);
+  //console.log("selected Data " + selected);
+
   // console.log(value);
   return (
     <SafeAreaView style={styles.container}>
@@ -91,17 +133,28 @@ const Resident = () => {
             </Text>
           </View>
         </View>
+
         <SelectList
           setSelected={(val) => setSelected(val)}
-          data={selectListData}
+          data={wingData}
           save="value"
           placeholder="Select Wing"
+          onSelect={displayFloors}
         />
+
         <FlatList
-          data={data}
-          keyExtractor={(item) => item.id.toString()}
+          data={floorData}
+          keyExtractor={(item, index) => item.id.toString()}
           renderItem={({ item }) => (
-            <DropDownResident title="1 st floor" name="1st FLoor" id="1" />
+            <DropDownResident
+              title={item.title}
+              name="1st FLoor"
+              id={item.id}
+              total={item.total}
+              flatsData={flatData}
+
+              // flag="true"
+            />
           )}
         />
       </View>
