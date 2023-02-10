@@ -39,30 +39,32 @@ const Home = ({ navigation, enableBackdropDismiss, show, onDismiss }) => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <SafeAreaView style={styles.container}>
+      {/* <View> */}
       <View>
         <Header />
-        <ScrollView>
-          <Modal
-            animationType="slide"
-            transparent={true}
+      </View>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setModalVisible(!modalVisible);
+          }}
+        >
+          {/* ()=>setModalVisible(!modalVisible)}></TouchableWithoutFeedback> */}
+
+          <PreAprroveDialogBox
             visible={modalVisible}
-            onRequestClose={() => {
-              Alert.alert("Modal has been closed.");
-              setModalVisible(!modalVisible);
+            onDismiss={() => {
+              setModalVisible(false);
             }}
-          >
-            {/* ()=>setModalVisible(!modalVisible)}></TouchableWithoutFeedback> */}
+            enableBackdropDismiss
+          />
+        </Modal>
 
-            <PreAprroveDialogBox
-              visible={modalVisible}
-              onDismiss={() => {
-                setModalVisible(false);
-              }}
-              enableBackdropDismiss
-            />
-          </Modal>
-
-          {/*        <View style={styles.centeredView}>
+        {/*        <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <Text style={styles.modalText}>Hello World!</Text>
                         <Pressable
@@ -74,421 +76,415 @@ const Home = ({ navigation, enableBackdropDismiss, show, onDismiss }) => {
                     </View>
                     </View>*/}
 
-          {/* <View style={styles.container}> */}
+        {/* <View style={styles.container}> */}
 
-          <View style={styles.VisitorsContainer}>
-            <Text style={styles.Headings}>Visitors</Text>
+        <View style={styles.VisitorsContainer}>
+          <Text style={styles.Headings}>Visitors</Text>
 
-            <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("DailyHelp");
-                }}
-              >
-                <ImageBackground
-                  source={background}
-                  resizeMode="cover"
-                  style={styles.VisitorButtons}
-                >
-                  <Octicons
-                    name="person-add"
-                    size={24}
-                    color="white"
-                    style={{ alignSelf: "center" }}
-                  />
-                </ImageBackground>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <ImageBackground
-                  source={background}
-                  resizeMode="cover"
-                  style={styles.VisitorButtons}
-                >
-                  <Image
-                    source={permittedUser}
-                    style={{ width: 38, height: 38, color: "white" }}
-                  ></Image>
-                </ImageBackground>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("Invites");
-                }}
-              >
-                <ImageBackground
-                  source={background}
-                  resizeMode="cover"
-                  style={styles.VisitorButtons}
-                >
-                  <MaterialCommunityIcons
-                    name="email-outline"
-                    size={28}
-                    color="white"
-                  />
-                </ImageBackground>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("ViewAll");
-                }}
-              >
-                <ImageBackground
-                  source={background}
-                  resizeMode="cover"
-                  style={styles.VisitorButtons}
-                >
-                  <Ionicons name="md-eye-outline" size={26} color="white" />
-                </ImageBackground>
-              </TouchableOpacity>
-            </View>
-
-            <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-              <Text
-                style={{
-                  width: 54,
-                  height: 30,
-                  fontSize: 12,
-                  marginLeft: 8,
-                  textAlign: "center",
-                  marginTop: 3,
-                }}
-              >
-                Add Daily Help
-              </Text>
-              <Text
-                style={{
-                  width: 54,
-                  height: 30,
-                  fontSize: 12,
-                  marginLeft: 8,
-                  textAlign: "center",
-                  marginTop: 3,
-                }}
-              >
-                Pre Approve
-              </Text>
-              <Text
-                style={{
-                  width: 54,
-                  height: 30,
-                  fontSize: 12,
-                  marginLeft: 8,
-                  textAlign: "center",
-                  marginTop: 3,
-                }}
-              >
-                Invites
-              </Text>
-              <Text
-                style={{
-                  width: 54,
-                  height: 30,
-                  fontSize: 12,
-                  marginLeft: 8,
-                  textAlign: "center",
-                  marginTop: 3,
-                }}
-              >
-                View All
-              </Text>
-            </View>
-          </View>
-
-          <View>
-            <Text style={styles.NoticeHeading}>Noticeboard</Text>
-          </View>
-          <NoticeBoard />
-
-          <View style={styles.ServiceContainer}>
-            <Text style={styles.Headings}>Services</Text>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                justifyContent: "center",
-                alignContent: "center",
-                marginLeft: 50,
+          <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("DailyHelp");
               }}
             >
-              <TouchableOpacity
-                style={{ marginTop: 0, flex: 1 }}
-                onPress={() => {
-                  navigation.navigate("Communication");
-                }}
+              <ImageBackground
+                source={background}
+                resizeMode="cover"
+                style={styles.VisitorButtons}
               >
-                <MaterialCommunityIcons
-                  name="message-processing-outline"
-                  size={40}
-                  color="#434F39"
+                <Octicons
+                  name="person-add"
+                  size={24}
+                  color="white"
+                  style={{ alignSelf: "center" }}
                 />
-              </TouchableOpacity>
+              </ImageBackground>
+            </TouchableOpacity>
 
-              <TouchableOpacity
-                style={{ flex: 1 }}
-                onPress={() => {
-                  navigation.navigate("HelpDesk");
-                }}
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <ImageBackground
+                source={background}
+                resizeMode="cover"
+                style={styles.VisitorButtons}
               >
-                <Feather name="help-circle" size={40} color="#434F39" />
-              </TouchableOpacity>
+                <Image
+                  source={permittedUser}
+                  style={{ width: 38, height: 38, color: "white" }}
+                ></Image>
+              </ImageBackground>
+            </TouchableOpacity>
 
-              <TouchableOpacity
-                style={{ flex: 1 }}
-                onPress={() => {
-                  navigation.navigate("EmergencyNumber");
-                }}
-              >
-                <Feather name="alert-triangle" size={40} color="#434F39" />
-              </TouchableOpacity>
-            </View>
-
-            <View style={{ flex: 1, flexDirection: "row", marginLeft: 0 }}>
-              <Text
-                style={{
-                  flex: 1,
-                  fontWeight: "400",
-                  fontSize: 12,
-                  lineHeight: 14,
-                  marginLeft: 22,
-                }}
-              >
-                Communications
-              </Text>
-              <Text
-                style={{
-                  flex: 1,
-                  fontWeight: "400",
-                  fontSize: 12,
-                  lineHeight: 14,
-                  marginLeft: 18,
-                }}
-              >
-                Help Desk
-              </Text>
-              <Text
-                style={{
-                  flex: 1,
-                  fontWeight: "400",
-                  fontSize: 12,
-                  lineHeight: 14,
-                  marginRight: 10,
-                }}
-              >
-                Emergency NO.s
-              </Text>
-            </View>
-
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                marginLeft: 50,
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Invites");
               }}
             >
-              <TouchableOpacity
-                style={{ flex: 1 }}
-                onPress={() => {
-                  navigation.navigate("Resident");
-                }}
-              >
-                <FontAwesome5 name="building" size={40} color="#434F39" />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={{ flex: 1 }}
-                onPress={() => {
-                  navigation.navigate("Document");
-                }}
-              >
-                <Ionicons name="document-outline" size={40} color="#434F39" />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={{ flex: 1 }}
-                onPress={() => {
-                  navigation.navigate("Amenities");
-                }}
-              >
-                <Feather name="alert-triangle" size={40} color="#434F39" />
-              </TouchableOpacity>
-            </View>
-
-            <View style={{ flex: 1, flexDirection: "row", marginLeft: 0 }}>
-              <Text
-                style={{
-                  flex: 1,
-                  fontWeight: "400",
-                  fontSize: 12,
-                  lineHeight: 14,
-                  marginLeft: 45,
-                }}
-              >
-                Resident
-              </Text>
-              <Text
-                style={{
-                  flex: 1,
-                  fontWeight: "400",
-                  fontSize: 12,
-                  lineHeight: 14,
-                  marginRight: 0,
-                }}
-              >
-                Document
-              </Text>
-              <Text
-                style={{
-                  flex: 1,
-                  fontWeight: "400",
-                  fontSize: 12,
-                  lineHeight: 14,
-                  marginRight: 12,
-                }}
-              >
-                Amenities
-              </Text>
-            </View>
-
-            <View style={{ flex: 1, flexDirection: "row", marginLeft: 50 }}>
-              <TouchableOpacity
-                style={{ flex: 1 }}
-                onPress={() => {
-                  navigation.navigate("DailyHelp");
-                }}
+              <ImageBackground
+                source={background}
+                resizeMode="cover"
+                style={styles.VisitorButtons}
               >
                 <MaterialCommunityIcons
-                  name="van-utility"
-                  size={40}
-                  color="#434F39"
+                  name="email-outline"
+                  size={28}
+                  color="white"
                 />
-              </TouchableOpacity>
+              </ImageBackground>
+            </TouchableOpacity>
 
-              <TouchableOpacity style={{ flex: 1 }}>
-                <ImageBackground
-                  source={background}
-                  resizeMode="cover"
-                  style={{
-                    width: 40,
-                    height: 40,
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <MaterialIcons
-                    name="arrow-forward-ios"
-                    size={24}
-                    color="white"
-                  />
-                </ImageBackground>
-              </TouchableOpacity>
-              <View style={{ flex: 1 }}></View>
-            </View>
-
-            <View style={{ flex: 1, flexDirection: "row", marginLeft: 0 }}>
-              <Text
-                style={{
-                  flex: 1,
-                  fontWeight: "400",
-                  fontSize: 12,
-                  lineHeight: 14,
-                  marginLeft: 40,
-                }}
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("ViewAll");
+              }}
+            >
+              <ImageBackground
+                source={background}
+                resizeMode="cover"
+                style={styles.VisitorButtons}
               >
-                Daily Help
-              </Text>
-              <Text
-                style={{
-                  flex: 1,
-                  fontWeight: "400",
-                  fontSize: 12,
-                  lineHeight: 14,
-                  marginLeft: 28,
-                }}
-              >
-                View All
-              </Text>
-              <Text
-                style={{
-                  flex: 1,
-                  fontWeight: "400",
-                  fontSize: 12,
-                  lineHeight: 14,
-                  marginLeft: 40,
-                }}
-              ></Text>
-            </View>
+                <Ionicons name="md-eye-outline" size={26} color="white" />
+              </ImageBackground>
+            </TouchableOpacity>
           </View>
 
-          <View style={styles.PaymentContainer}>
-            <Text style={styles.Headings}>Payment</Text>
-
-            <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-              <TouchableOpacity
-                style={styles.PaymentButtons}
-              ></TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.PaymentButtons}
-              ></TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.PaymentButtons}
-              ></TouchableOpacity>
-            </View>
-
-            <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-              <Text
-                style={{
-                  width: 54,
-                  height: 30,
-                  fontSize: 12,
-                  marginLeft: 8,
-                  textAlign: "center",
-                  marginTop: 3,
-                }}
-              >
-                Society Charges
-              </Text>
-              <Text
-                style={{
-                  width: 54,
-                  height: 30,
-                  fontSize: 12,
-                  marginLeft: 8,
-                  textAlign: "center",
-                  marginTop: 3,
-                }}
-              >
-                Utility Payments
-              </Text>
-              <Text
-                style={{
-                  width: 54,
-                  height: 30,
-                  fontSize: 12,
-                  marginLeft: 8,
-                  textAlign: "center",
-                  marginTop: 3,
-                }}
-              >
-                Rent
-              </Text>
-            </View>
+          <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
+            <Text
+              style={{
+                width: 54,
+                height: 30,
+                fontSize: 12,
+                marginLeft: 8,
+                textAlign: "center",
+                marginTop: 3,
+              }}
+            >
+              Add Daily Help
+            </Text>
+            <Text
+              style={{
+                width: 54,
+                height: 30,
+                fontSize: 12,
+                marginLeft: 8,
+                textAlign: "center",
+                marginTop: 3,
+              }}
+            >
+              Pre Approve
+            </Text>
+            <Text
+              style={{
+                width: 54,
+                height: 30,
+                fontSize: 12,
+                marginLeft: 8,
+                textAlign: "center",
+                marginTop: 3,
+              }}
+            >
+              Invites
+            </Text>
+            <Text
+              style={{
+                width: 54,
+                height: 30,
+                fontSize: 12,
+                marginLeft: 8,
+                textAlign: "center",
+                marginTop: 3,
+              }}
+            >
+              View All
+            </Text>
           </View>
-        </ScrollView>
-        <CustomBottomBar Style={{}} />
+        </View>
 
-        {/* <NavigationContainer independent={true}>
+        <View>
+          <Text style={styles.NoticeHeading}>Noticeboard</Text>
+        </View>
+        <NoticeBoard />
+
+        <View style={styles.ServiceContainer}>
+          <Text style={styles.Headings}>Services</Text>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              justifyContent: "center",
+              alignContent: "center",
+              marginLeft: 50,
+            }}
+          >
+            <TouchableOpacity
+              style={{ marginTop: 0, flex: 1 }}
+              onPress={() => {
+                navigation.navigate("Communication");
+              }}
+            >
+              <MaterialCommunityIcons
+                name="message-processing-outline"
+                size={40}
+                color="#434F39"
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={{ flex: 1 }}
+              onPress={() => {
+                navigation.navigate("HelpDesk");
+              }}
+            >
+              <Feather name="help-circle" size={40} color="#434F39" />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={{ flex: 1 }}
+              onPress={() => {
+                navigation.navigate("EmergencyNumber");
+              }}
+            >
+              <Feather name="alert-triangle" size={40} color="#434F39" />
+            </TouchableOpacity>
+          </View>
+
+          <View style={{ flex: 1, flexDirection: "row", marginLeft: 0 }}>
+            <Text
+              style={{
+                flex: 1,
+                fontWeight: "400",
+                fontSize: 12,
+                lineHeight: 14,
+                marginLeft: 22,
+              }}
+            >
+              Communications
+            </Text>
+            <Text
+              style={{
+                flex: 1,
+                fontWeight: "400",
+                fontSize: 12,
+                lineHeight: 14,
+                marginLeft: 18,
+              }}
+            >
+              Help Desk
+            </Text>
+            <Text
+              style={{
+                flex: 1,
+                fontWeight: "400",
+                fontSize: 12,
+                lineHeight: 14,
+                marginRight: 10,
+              }}
+            >
+              Emergency NO.s
+            </Text>
+          </View>
+
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginLeft: 50,
+            }}
+          >
+            <TouchableOpacity
+              style={{ flex: 1 }}
+              onPress={() => {
+                navigation.navigate("Resident");
+              }}
+            >
+              <FontAwesome5 name="building" size={40} color="#434F39" />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={{ flex: 1 }}
+              onPress={() => {
+                navigation.navigate("Document");
+              }}
+            >
+              <Ionicons name="document-outline" size={40} color="#434F39" />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={{ flex: 1 }}
+              onPress={() => {
+                navigation.navigate("Amenities");
+              }}
+            >
+              <Feather name="alert-triangle" size={40} color="#434F39" />
+            </TouchableOpacity>
+          </View>
+
+          <View style={{ flex: 1, flexDirection: "row", marginLeft: 0 }}>
+            <Text
+              style={{
+                flex: 1,
+                fontWeight: "400",
+                fontSize: 12,
+                lineHeight: 14,
+                marginLeft: 45,
+              }}
+            >
+              Resident
+            </Text>
+            <Text
+              style={{
+                flex: 1,
+                fontWeight: "400",
+                fontSize: 12,
+                lineHeight: 14,
+                marginRight: 0,
+              }}
+            >
+              Document
+            </Text>
+            <Text
+              style={{
+                flex: 1,
+                fontWeight: "400",
+                fontSize: 12,
+                lineHeight: 14,
+                marginRight: 12,
+              }}
+            >
+              Amenities
+            </Text>
+          </View>
+
+          <View style={{ flex: 1, flexDirection: "row", marginLeft: 50 }}>
+            <TouchableOpacity
+              style={{ flex: 1 }}
+              onPress={() => {
+                navigation.navigate("DailyHelp");
+              }}
+            >
+              <MaterialCommunityIcons
+                name="van-utility"
+                size={40}
+                color="#434F39"
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={{ flex: 1 }}>
+              <ImageBackground
+                source={background}
+                resizeMode="cover"
+                style={{
+                  width: 40,
+                  height: 40,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <MaterialIcons
+                  name="arrow-forward-ios"
+                  size={24}
+                  color="white"
+                />
+              </ImageBackground>
+            </TouchableOpacity>
+            <View style={{ flex: 1 }}></View>
+          </View>
+
+          <View style={{ flex: 1, flexDirection: "row", marginLeft: 0 }}>
+            <Text
+              style={{
+                flex: 1,
+                fontWeight: "400",
+                fontSize: 12,
+                lineHeight: 14,
+                marginLeft: 40,
+              }}
+            >
+              Daily Help
+            </Text>
+            <Text
+              style={{
+                flex: 1,
+                fontWeight: "400",
+                fontSize: 12,
+                lineHeight: 14,
+                marginLeft: 28,
+              }}
+            >
+              View All
+            </Text>
+            <Text
+              style={{
+                flex: 1,
+                fontWeight: "400",
+                fontSize: 12,
+                lineHeight: 14,
+                marginLeft: 40,
+              }}
+            ></Text>
+          </View>
+        </View>
+
+        <View style={styles.PaymentContainer}>
+          <Text style={styles.Headings}>Payment</Text>
+
+          <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
+            <TouchableOpacity style={styles.PaymentButtons}></TouchableOpacity>
+
+            <TouchableOpacity style={styles.PaymentButtons}></TouchableOpacity>
+
+            <TouchableOpacity style={styles.PaymentButtons}></TouchableOpacity>
+          </View>
+
+          <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
+            <Text
+              style={{
+                width: 54,
+                height: 30,
+                fontSize: 12,
+                marginLeft: 8,
+                textAlign: "center",
+                marginTop: 3,
+              }}
+            >
+              Society Charges
+            </Text>
+            <Text
+              style={{
+                width: 54,
+                height: 30,
+                fontSize: 12,
+                marginLeft: 8,
+                textAlign: "center",
+                marginTop: 3,
+              }}
+            >
+              Utility Payments
+            </Text>
+            <Text
+              style={{
+                width: 54,
+                height: 30,
+                fontSize: 12,
+                marginLeft: 8,
+                textAlign: "center",
+                marginTop: 3,
+              }}
+            >
+              Rent
+            </Text>
+          </View>
+        </View>
+      </ScrollView>
+      <CustomBottomBar Style={{}} />
+
+      {/* <NavigationContainer independent={true}>
         <Tab.Navigator
         initialRouteName="Home " 
         >
         {/* <Tab.Screen name="Home" component={this}/> */}
-        {/* <Tab.Screen name="Login" component={LoginScreen} />  */}
-        {/* <Tab.Screen name="Community" component={CommunityScreen}/>
+      {/* <Tab.Screen name="Login" component={LoginScreen} />  */}
+      {/* <Tab.Screen name="Community" component={CommunityScreen}/>
         <Tab.Screen name="Actions" component={ActionScreen}/>
         <Tab.Screen name="Directory" component={DirectoryScreen}/>
         <Tab.Screen name="Profile" component={ProfileScreen} />
@@ -496,7 +492,7 @@ const Home = ({ navigation, enableBackdropDismiss, show, onDismiss }) => {
     </Tab.Navigator>
     </NavigationContainer>
          */}
-      </View>
+      {/* </View> */}
     </SafeAreaView>
   );
 };

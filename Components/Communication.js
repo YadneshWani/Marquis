@@ -128,6 +128,7 @@ const Communication = ({ navigation }) => {
                 navigation.navigate("DiscussionDetail", {
                   descKey: item.discussion_id,
                   name: funcUserName(item.author_id),
+                  date: funcDate(feedArray[index].createdAt),
                 });
               }}
             >
