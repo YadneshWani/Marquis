@@ -548,10 +548,11 @@ const styles = StyleSheet.create({
     height: 77,
     borderRadius: 12,
     alignItems: "center",
-    margin: 16,
+    //margin: 16,
     marginTop: 8,
     borderWidth: 1,
     borderColor: "#CABE9B",
+    alignSelf: "center",
   },
 
   ServiceContainer: {
@@ -561,6 +562,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     //borderWidth:1,
     alignItems: "center",
+    alignSelf: "center",
     margin: 16,
     marginTop: 8,
     shadowOffset: { width: -2, height: 0.12 },

@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     borderWidth: 1,
     borderColor: "#CABE9B",
+    alignSelf: "center",
   },
 });
 export default NoticeBoard;

@@ -71,7 +71,7 @@ const Communication = ({ navigation }) => {
     console.log("Array Size " + feedArray);
   }, []);
 
-  funcUserName = (authorId) => {
+  const funcUserName = (authorId) => {
     let name;
 
     while (j < user.length) {
@@ -86,7 +86,7 @@ const Communication = ({ navigation }) => {
     return name;
   };
 
-  funcDate = (dateAndTime) => {
+  const funcDate = (dateAndTime) => {
     let date = dateAndTime.split("T");
 
     return date[0];
@@ -100,7 +100,7 @@ const Communication = ({ navigation }) => {
           marginTop: 17,
           marginLeft: 24,
           marginBottom: 17,
-          alignSelf: "left",
+          alignSelf: "flex-start",
         }}
       >
         <Text style={{ color: "#6E6E6E" }}>Filter</Text>

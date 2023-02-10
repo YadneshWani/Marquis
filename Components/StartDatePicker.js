@@ -17,7 +17,7 @@ const StartDatePicker = () => {
   //console.log(d);
 
   const showMode = (currentMode) => {
-    if (Platform.OS === "ios") {
+    if (Platform.OS === "ios" || "android") {
       console.log("IOS");
       setShow(true);
       // for iOS, add a button that closes the picker
