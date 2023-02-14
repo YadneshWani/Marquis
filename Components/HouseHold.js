@@ -1,5 +1,12 @@
-import react from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import react, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { ImageBackground } from "react-native";
 import CircleBackground from "../assets/Images/CircleBackground.png";
@@ -8,7 +15,107 @@ import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import axios from "axios";
+import call from "react-native-phone-call";
 const HouseHold = ({}) => {
+  const familyArray = [];
+  const guestArray = [];
+  const dailyHelpArray = [];
+  const vehicleArray = [];
+  const [family, setFamily] = useState([]);
+  const [dailyhelp, setDailyHelp] = useState([]);
+  const [vehicle, setVehicle] = useState([]);
+  const [guest, setGuest] = useState([]);
+  // const [HouseHoldData, setHouseHoldData] = useState([]);
+  async function getUserData() {
+    const userUrl = `https://marquis-backend.onrender.com/user/getUser/IdZ7IJB`;
+    const UserResponse = await axios.get(userUrl);
+
+    const HouseHoldData = UserResponse.data.data;
+    console.log("household length " + HouseHoldData.household.length);
+
+    for (let i = 0; i < HouseHoldData.household.length; i++) {
+      switch (HouseHoldData.household[i].type) {
+        case "Family": {
+          familyArray.push({
+            name: HouseHoldData.household[i].name,
+            contact: HouseHoldData.household[i].contact,
+            image: HouseHoldData.household[i].image,
+          });
+          break;
+        }
+        case "Daily Help": {
+          dailyHelpArray.push({
+            name: HouseHoldData.household[i].name,
+            contact: HouseHoldData.household[i].contact,
+            image: HouseHoldData.household[i].image,
+          });
+          break;
+        }
+        case "Vehicle": {
+          vehicleArray.push({
+            name: HouseHoldData.household[i].name,
+            contact: HouseHoldData.household[i].contact,
+            image: HouseHoldData.household[i].image,
+          });
+        }
+        case "Guest": {
+          guestArray.push({
+            name: HouseHoldData.household[i].name,
+            contact: HouseHoldData.household[i].contact,
+            image: HouseHoldData.household[i].image,
+          });
+        }
+        default: {
+          console.log("no type matched");
+        }
+      }
+      setFamily(familyArray);
+      setDailyHelp(dailyHelpArray);
+      setVehicle(vehicleArray);
+      setGuest(guestArray);
+
+      //console.log("family size" + familyArray.length);
+    }
+  }
+
+  useEffect(() => {
+    getUserData();
+    // for (let i = 0; i < HouseHoldData.household.length; i++) {
+    //   if (HouseHoldData.household[i].type == "Family") {
+    //     familyArray.push({
+    //       name: HouseHoldData.household[i].name,
+    //       contact: HouseHoldData.household[i].contact,
+    //       image: HouseHoldData.household[i].image,
+    //     });
+    //   } else if (HouseHoldData.household[i].type == "Daily Help") {
+    //     dailyHelpArray.push({
+    //       name: HouseHoldData.household[i].name,
+    //       contact: HouseHoldData.household[i].contact,
+    //       image: HouseHoldData.household[i].image,
+    //     });
+    //   } else if (HouseHoldData.household[i].type == "Vehicle") {
+    //     vehicleArray.push({
+    //       name: HouseHoldData.household[i].name,
+    //       contact: HouseHoldData.household[i].contact,
+    //       image: HouseHoldData.household[i].image,
+    //     });
+    //   } else if (HouseHoldData.household[i].type == "Guest") {
+    //     guestArray.push({
+    //       name: HouseHoldData.household[i].name,
+    //       contact: HouseHoldData.household[i].contact,
+    //       image: HouseHoldData.household[i].image,
+    //     });
+    //   } else {
+    //     console.log("no type matched");
+    //   }
+    // }
+    // setFamily(familyArray);
+    // setDailyHelp(dailyHelpArray);
+    // setVehicle(vehicleArray);
+    // setGuest(guestArray);
+  });
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -49,8 +156,14 @@ const HouseHold = ({}) => {
             </TouchableOpacity>
           </View>
         </View>
-
         {/* //Family Tab */}
+
+        {/* <FlatList
+          //numColumns={1}
+          data={familyArray}
+          renderItem={({ item, index }) => ( */}
+        {/* {familyArray ? (
+          familyArray.map((item, index) => ( */}
         <View style={styles.FamilyContainer}>
           <Text style={styles.heading}>Family</Text>
           <View
@@ -62,8 +175,9 @@ const HouseHold = ({}) => {
               marginTop: 10,
             }}
           >
-            <View style={styles.smallItemProfile}></View>
-            <View style={styles.smallItemProfile}></View>
+            {family.map((item, index) => (
+              <View style={styles.smallItemProfile}></View>
+            ))}
             <View>
               <TouchableOpacity>
                 <AntDesign name="pluscircle" size={50} color="#6E815F" />
@@ -78,8 +192,9 @@ const HouseHold = ({}) => {
               marginLeft: 10,
             }}
           >
-            <Text style={styles.nameStyle}>Family Member</Text>
-            <Text style={styles.nameStyle}>Family Member</Text>
+            {family.map((item, index) => (
+              <Text style={styles.nameStyle}>{item.name}</Text>
+            ))}
           </View>
 
           <View
@@ -90,37 +205,41 @@ const HouseHold = ({}) => {
               marginLeft: 30,
             }}
           >
-            <View style={{ flexDirection: "row", marginTop: 10 }}>
-              <TouchableOpacity>
-                <Ionicons
-                  name="call"
-                  size={24}
-                  color="#00DB92"
-                  style={{ marginRight: 10 }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <AntDesign name="sharealt" size={24} color="black" />
-              </TouchableOpacity>
-            </View>
-            <View style={{ flexDirection: "row", marginTop: 10 }}>
-              <TouchableOpacity>
-                <Ionicons
-                  name="call"
-                  size={24}
-                  color="#00DB92"
-                  style={{ marginRight: 10 }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <AntDesign name="sharealt" size={24} color="black" />
-              </TouchableOpacity>
-            </View>
+            {family.map((item, index) => (
+              <View style={{ flexDirection: "row", marginTop: 10 }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    const contact = item.contact.toString();
+                    const arg = {
+                      number: contact,
+                      prompt: true,
+                    };
+                    call(arg).catch(console.error);
+                  }}
+                >
+                  <Ionicons
+                    name="call"
+                    size={24}
+                    color="#00DB92"
+                    style={{ marginRight: 10 }}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <AntDesign name="sharealt" size={24} color="black" />
+                </TouchableOpacity>
+              </View>
+            ))}
           </View>
         </View>
+        {/* //   )}
+            //   keyExtractor={(item, index) => index}
+            // />
+          ))
+        ) : (
+          <Text>Yadnesh </Text>
+        )} */}
 
         {/* Daily help tab */}
-
         <View style={styles.DailyHelpContainer}>
           <Text style={styles.heading}>Daily Help</Text>
           <View
@@ -188,9 +307,7 @@ const HouseHold = ({}) => {
             </View>
           </View>
         </View>
-
         {/* Vehicle tab */}
-
         <View style={styles.MyVehicleContainer}>
           <Text style={styles.heading}>My Vehicles</Text>
           <View
@@ -256,9 +373,7 @@ const HouseHold = ({}) => {
             </View>
           </View>
         </View>
-
         {/* Guest */}
-
         <View style={styles.GuestContainer}>
           <Text style={styles.heading}>Guest</Text>
           <View

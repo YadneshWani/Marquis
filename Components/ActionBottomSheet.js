@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   PreApproveTextStyle: {
     fontWeight: 400,
     fontSize: 14,
-    marginLeft: 25,
+    marginLeft: 50,
     marginTop: 10,
     justifyContent: "space-between",
     marginRight: 100,
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   SecurityTextStyle: {
     fontWeight: 400,
     fontSize: 14,
-    marginLeft: 25,
+    marginLeft: 50,
     marginTop: 10,
     justifyContent: "space-between",
     marginRight: 150,
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   communityTextStyle: {
     fontWeight: 400,
     fontSize: 14,
-    marginLeft: 25,
+    marginLeft: 50,
     marginTop: 10,
     justifyContent: "space-between",
     marginRight: 150,

@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     height: 85,
     backgroundColor: "white",
     position: "absolute",
-    bottom: -30,
+    bottom: 0,
   },
   heading: {
     color: "#6E6E6E",
@@ -141,6 +141,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     marginTop: 5,
     marginBottom: 18,
+    marginLeft: 10,
   },
   preApproveEntryContainer: {
     flexDirection: "row",
