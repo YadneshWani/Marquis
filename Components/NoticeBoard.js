@@ -53,7 +53,7 @@ const NoticeBoard = () => {
                 color: "#585858",
                 marginLeft: 8,
                 marginRight: 10,
-                marginTop: 10,
+                marginTop: 0,
               }}
             >
               {item.description}
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     width: 352,
     height: 77,
     borderRadius: 12,
-    alignItems: "center",
+    padding: 5,
     margin: 16,
     marginTop: 8,
     borderWidth: 1,

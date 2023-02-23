@@ -21,8 +21,9 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 
-function CustomBottomBar() {
+function CustomBottomBar({activeTab,onTabPress}) {
   const [show, setShow] = useState(false);
+
   const navigation = useNavigation();
   return (
     <View style={styles.CustomBottomContainer}>
@@ -36,38 +37,70 @@ function CustomBottomBar() {
       >
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("Home");
+            activeTab==="Home"?
+            navigation.navigate("Home"):null
+
+            onTabPress('Home');
           }}
+          
         >
-          <Ionicons name="home-outline" size={40} color="black" />
+          <Ionicons
+            name="home-outline"
+            size={35}
+            color="black"
+            style={{ marginTop: 10 }}
+          />
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("Community");
+            activeTab==='Community'?
+            navigation.navigate("Community"):null
+
+            onTabPress('Community');
           }}
         >
-          <Ionicons name="md-people-outline" size={40} color="black" />
+          <Ionicons
+            name="md-people-outline"
+            size={35}
+            color="black"
+            style={{ marginTop: 10 }}
+          />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => setShow(true)}>
-          <Ionicons name="ios-add-circle" size={60} color="#6E815F" />
+          <Ionicons name="ios-add-circle" size={55} color="#6E815F" />
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("Service");
+            activeTab==='Service'?
+            navigation.navigate("Service"):null
+
+            onTabPress('Service');
           }}
         >
-          <Ionicons name="briefcase" size={40} color="black" />
+          <Ionicons
+            name="briefcase"
+            size={35}
+            color="black"
+            style={{ marginTop: 10 }}
+          />
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("Profile");
+            activeTab==='Profile'?
+            navigation.navigate("Profile"):null
+            
           }}
         >
-          <Ionicons name="md-person-circle-outline" size={40} color="black" />
+          <Ionicons
+            name="md-person-circle-outline"
+            size={35}
+            color="black"
+            style={{ marginTop: 10 }}
+          />
         </TouchableOpacity>
       </View>
       <Provider>

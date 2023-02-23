@@ -5,6 +5,7 @@ import { Feather } from "@expo/vector-icons";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
+import CustomBottomBar from "./CustomBottomBar";
 
 const Community = ({ navigation }) => {
   return (
@@ -244,6 +245,7 @@ const Community = ({ navigation }) => {
           ></Text>
         </View>
       </View>
+      {/* <CustomBottomBar /> */}
     </View>
   );
 };

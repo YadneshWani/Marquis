@@ -8,7 +8,7 @@ const AddUser = ({ navigation }) => {
         style={styles.EmailButtonStyle}
         activeOpacity={0.5}
         onPress={() => {
-          navigation.navigate("Home");
+          navigation.navigate("MainController");
         }}
       >
         <Text style={{ color: "white", fontSize: 18, fontWeight: "bold" }}>

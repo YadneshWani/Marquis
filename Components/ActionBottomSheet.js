@@ -15,62 +15,61 @@ import {
 } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
 
-const ActionBottomSheet = () => {
-  const [show, setShow] = useState(true);
+const ActionBottomSheet = ({ show, setShow }) => {
+  //const [show, setShow] = useState(true);
   return (
     <Provider>
-      <View>
-        <Button onPress={() => setShow(true)} title="show Bottom Sheet" />
-        <Actions
-          show={show}
-          onDismiss={() => {
-            setShow(false);
-          }}
-          enableBackdropDismiss
-        >
-          <ScrollView>
-            <Text style={styles.heading}>Pre Approve Entry</Text>
-            <View style={styles.preApproveEntryContainer}>
-              <Ionicons name="person-outline" size={20} color="#434F39" />
-              <AntDesign name="car" size={20} color="#434F39" />
-              <Feather name="truck" size={20} color="#434F39" />
-              <Feather name="home" size={20} color="#434F39" />
-            </View>
-            <View style={styles.PreApproveTextStyle}>
-              <Text>Guest</Text>
-              <Text>Cab</Text>
-              <Text>Delivery</Text>
-              <Text>Visiting{"\n"}Help</Text>
-            </View>
+      {/* <View> */}
+      <Actions
+        show={show}
+        onDismiss={() => {
+          setShow(false);
+        }}
+        enableBackdropDismiss
+      >
+        <ScrollView>
+          <Text style={styles.heading}>Pre Approve Entry</Text>
+          <View style={styles.preApproveEntryContainer}>
+            <Ionicons name="person-outline" size={20} color="#434F39" />
+            <AntDesign name="car" size={20} color="#434F39" />
+            <Feather name="truck" size={20} color="#434F39" />
+            <Feather name="home" size={20} color="#434F39" />
+          </View>
+          <View style={styles.PreApproveTextStyle}>
+            <Text>Guest</Text>
+            <Text>Cab</Text>
+            <Text>Delivery</Text>
+            <Text>Visiting{"\n"}Help</Text>
+          </View>
 
-            <Text style={styles.heading}>Security</Text>
-            <View style={styles.securityContainer}>
-              <MaterialIcons name="security" size={20} color="#434F39" />
-              <SimpleLineIcons name="envelope" size={20} color="#434F39" />
-              <Feather name="truck" size={20} color="#434F39" />
-            </View>
-            <View style={styles.SecurityTextStyle}>
-              <Text>Security{"\n"}Alert</Text>
-              <Text>Message{"\n"}Gaurd</Text>
-              <Text>Allow kid{"\n"}Exit</Text>
-            </View>
+          <Text style={styles.heading}>Security</Text>
+          <View style={styles.securityContainer}>
+            <MaterialIcons name="security" size={20} color="#434F39" />
+            <SimpleLineIcons name="envelope" size={20} color="#434F39" />
+            <Feather name="truck" size={20} color="#434F39" />
+          </View>
+          <View style={styles.SecurityTextStyle}>
+            <Text>Security{"\n"}Alert</Text>
+            <Text>Message{"\n"}Gaurd</Text>
+            <Text>Allow kid{"\n"}Exit</Text>
+          </View>
 
-            <Text style={styles.heading}>Community</Text>
-            <View style={styles.communityContainer}>
-              <MaterialCommunityIcons
-                name="message-processing-outline"
-                size={20}
-                color="#434F39"
-              />
-            </View>
-            <View style={styles.communityTextStyle}>
-              <Text>Start{"\n"}Discussion</Text>
-            </View>
-          </ScrollView>
-        </Actions>
+          <Text style={styles.heading}>Community</Text>
+          <View style={styles.communityContainer}>
+            <MaterialCommunityIcons
+              name="message-processing-outline"
+              size={20}
+              color="#434F39"
+            />
+          </View>
+          <View style={styles.communityTextStyle}>
+            <Text>Start{"\n"}Discussion</Text>
+          </View>
+        </ScrollView>
+      </Actions>
 
-        <StatusBar style="auto" />
-      </View>
+      <StatusBar style="auto" />
+      {/* </View> */}
     </Provider>
   );
 };

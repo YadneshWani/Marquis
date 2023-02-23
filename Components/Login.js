@@ -1,133 +1,154 @@
-import React from "react";
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View,TouchableOpacity ,Image} from 'react-native';
+import React, { useState } from "react";
+import { View, StyleSheet, Text, TextInput } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
+import SignIn from "./SignIn";
+import Register from "./Register";
 
-// import logoIcon from '../assets/logo.png';
+const Login = () => {
+  const navigation = useNavigation();
+  const [state, setState] = useState(["SignIn"]);
+  return (
+    <View style={styles.container}>
+      <LinearGradient
+        colors={["#CCE69C", "#819670"]}
+        start={[0, 0]}
+        end={[100, 100]}
+        locations={[0.1, 0.3]}
+        style={styles.gradient}
+      >
+        <View>
+          {state == "SignIn" ? <SignIn /> : <Register />}
 
-const Login=({navigation})=>{
-    return (
-            <View style={styles.container}>
-        <View style={styles.HeaderStyle}>
-        <Image
-          source={require('../assets/logo.png')}   
-          style={styles.LogoStyle}   
-        />
-        <Text style={styles.textHeader}>Supersapiens Devlab</Text>
-
-      </View>
-      <Text style={styles.textBody}> Supersapiens Devlab Private Limited is a privately owned and managed company based in Pune.  </Text>
-      <StatusBar style="auto" />
-
-
-      <TouchableOpacity style={styles.ButtonStyle} activeOpacity={0.5} >
-            <Image
-              source={require('../assets/google.png')}
-              style={styles.ImageIconStyle}
-            />
-            <Text style={styles.TextStyle}> Sign up with Google </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.ButtonStyle} activeOpacity={0.5}>
-            <Image
-              source={require('../assets/github.png')}
-              style={styles.ImageIconStyle}
-            />
-            <Text style={styles.TextStyle}> Sign up with GitHub </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.EmailButtonStyle} activeOpacity={0.5}>
-            <Text style={styles.EmailTextStyle}> Sign up with email </Text>
-      </TouchableOpacity>
-
-      {/* <View style={styles.ButtonStyle}>
-        <Button title='Sign up with Google'/>
-      </View>
-      <View style={styles.ButtonStyle}>
-        <Button title='Sign up with GitHub'/>
-      </View>
-      <View style={styles.ButtonStyle}>
-        <Button title='Sign up with email'/>
-      </View> */}
-
+          {state == "SignIn" ? (
+            <View
+              style={{
+                alignSelf: "center",
+                flexDirection: "row",
+                marginTop: -40,
+              }}
+            >
+              <Text style={{ color: "#6E6E6E", fontSize: 14 }}>
+                Not a Member ?
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  setState("Register");
+                }}
+              >
+                <Text style={{ color: "#6267DC", fontSize: 14 }}>Register</Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View
+              style={{
+                alignSelf: "center",
+                flexDirection: "row",
+                marginTop: -40,
+              }}
+            >
+              <Text style={{ color: "#6E6E6E", fontSize: 14 }}>
+                Already Registered ?
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  setState("SignIn");
+                }}
+              >
+                <Text style={{ color: "#6267DC", fontSize: 14 }}>Login</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+        {/* <View
+          style={{
+            width: 350,
+            height: 300,
+            backgroundColor: "white",
+            borderRadius: 12,
+            marginVertical: 170,
+          }}
+        >
+          <Text
+            style={{
+              width: 55,
+              height: 30,
+              fontSize: 20,
+              alignSelf: "center",
+              fontWeight: "700",
+              marginTop: 10,
+            }}
+          >
+            Login
+          </Text>
+          <TextInput
+            style={styles.inputStyle}
+            keyboardType={"number-pad"}
+            placeholder="Phone Number"
+          />
+          <TouchableOpacity>
+            <View style={styles.GetOtpBtn}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  color: "white",
+                  fontWeight: "700",
+                  margin: 17,
+                }}
+              >
+                GET OTP
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <View
+            style={{ alignSelf: "center", flexDirection: "row", marginTop: 20 }}
+          >
+            <Text style={{ color: "#6E6E6E", fontSize: 14 }}>
+              Not a Member ?
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Register");
+              }}
+            >
+              <Text style={{ color: "#6267DC", fontSize: 14 }}>Register</Text>
+            </TouchableOpacity>
+          </View>
+        </View> */}
+      </LinearGradient>
     </View>
-   
-
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#DEE7D7',  
-    alignItems:'center'
   },
-  textHeader:{
-    fontSize:45,
-    marginTop:60,
-    fontWeight:'bold',
-    color:'black',
+  gradient: {
+    flex: 1,
+    alignItems: "center",
   },
-  textBody:{
-    fontSize:20,
-    color:'black',
-    marginTop:10,
-    marginHorizontal:20,
-    marginBottom:50,
-    textAlign:'center'
+  inputStyle: {
+    backgroundColor: "Gray",
+    borderRadius: 100,
+    paddingLeft: 5,
+    marginTop: 4,
+    borderWidth: 1,
+    width: 290,
+    height: 30,
+    marginTop: 30,
+    alignSelf: "center",
+    borderColor: "#D9D9D9",
   },
-  ButtonStyle:{
-    marginBottom:20,
-    borderRadius:10,
-    paddingTop:12,
-    paddingBottom:12,
-    paddingLeft:45,
-    paddingRight:45,
-    flexDirection:'row',
-    alignItems:'center',
-    
-    backgroundColor:'white',
-    color:'black',
+  GetOtpBtn: {
+    width: 120,
+    height: 60,
+    backgroundColor: "#6E815F",
+    marginTop: 30,
+    borderRadius: 12,
+    alignSelf: "center",
   },
-  TextStyle:{
-    color:'black',
-    fontSize:18,
-    fontWeight:'bold',
-    
-  },
-  ImageIconStyle:{
-    padding: 10,
-    height: 40,
-    width: 40,
-    resizeMode: 'stretch',
-  },
-  EmailButtonStyle:{
-    marginBottom:20,
-    borderRadius:10,
-    paddingTop:24,
-    paddingBottom:24,
-    paddingLeft:70,
-    paddingRight:70,
-    flexDirection:'row',
-    backgroundColor:'#002C9B',
-    
-  },
-  EmailTextStyle:{
-    color:'white',
-    fontSize:18,
-    fontWeight:'bold',
-    
-  },
-  HeaderStyle:{
-    flexDirection:'row',
-  },
-
-  LogoStyle:{
-    padding: 10,
-    height: 50,
-    width: 50,
-    marginTop:64,
-    
-  }
 });
-        
+
 export default Login;

@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import background from "../assets/Images/Background.png";
 import { EvilIcons } from "@expo/vector-icons";
+import CustomBottomBar from "./CustomBottomBar";
 
 const Profile = ({ navigation }) => {
   return (
@@ -173,6 +174,7 @@ const Profile = ({ navigation }) => {
           </View>
         </View>
       </View>
+      {/* <CustomBottomBar /> */}
     </View>
   );
 };

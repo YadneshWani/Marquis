@@ -16,6 +16,7 @@ const Actions = ({ show, onDismiss, enableBackdropDismiss, children }) => {
   // const bottomSheetHeight=Dimensions.get("window").height;
   const bottomSheetHeight = Dimensions.get("window").height * 0.5;
   const deviceWidth = Dimensions.get("window").width;
+
   const [open, setOpen] = useState(show);
   const bottom = useRef(new Animated.Value(-bottomSheetHeight)).current;
 

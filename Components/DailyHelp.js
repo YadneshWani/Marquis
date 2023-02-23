@@ -49,7 +49,6 @@ const DailyHelp = ({ navigation }) => {
     console.log(helperData);
   }
   useEffect(() => {
-    //   getHomeFeedData();
     getData();
   }, []);
 

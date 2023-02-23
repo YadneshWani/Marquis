@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -29,116 +29,145 @@ import DiscussionDetailScreen from "./Components/DiscussionDetail";
 import DailyHelpDetailScreen from "./Components/DailyHelpDetail";
 import DocumentScreen from "./Components/Document";
 import HouseHoldScreen from "./Components/HouseHold";
+import { View, Dimensions, Text } from "react-native";
+import BottomSheetScreen from "./Components/BottomSheetScreen";
+import RegisterScreen from "./Components/Register";
 
 //import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Modal } from "react-native-paper";
+import CustomBottomBar from "./Components/CustomBottomBar";
+import ActionBottomSheet from "./Components/ActionBottomSheet";
 
 const Stack = createNativeStackNavigator();
-
+const BottomSheet = ({ show, setShow }) => {
+  return <ActionBottomSheet show={show} setShow={setShow} />;
+};
 const MyStack = () => {
+  const [show, setShow] = useState(false);
+  const [activeTab, setActiveTab] = useState("Home");
+
+  const handleTabPress = (tab) => {
+    setActiveTab(tab);
+  };
+
   const Tab = createBottomTabNavigator();
   return (
     <SafeAreaProvider>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen
-            name="Add User Detail"
-            component={AddUserScreen}
-            options={{ title: "Marquis" }}
-          />
-          <Stack.Screen
-            name="MainController"
-            component={MainControllerScreen}
-            options={{ title: "BA/704", headerShown: false }}
-          />
-          <Stack.Screen
-            options={{ title: "Daily Help" }}
-            name="DailyHelp"
-            component={DailyHelpScreen}
-          />
+          <Stack.Group>
+            <Stack.Screen
+              name="Login"
+              component={LoginScreen}
+              options={{ title: "Marquis" }}
+            />
+            <Stack.Screen
+              name="MainController"
+              component={MainControllerScreen}
+              options={{ title: "BA/704", headerShown: false }}
+            />
+            <Stack.Screen
+              options={{ title: "Daily Help" }}
+              name="DailyHelp"
+              component={DailyHelpScreen}
+            />
 
-          <Stack.Screen name="Invites" component={InvitesScreen} />
-          <Stack.Screen
-            options={{ title: "Activities" }}
-            name="ViewAll"
-            component={ViewAllScreen}
-          />
-          <Stack.Screen
-            options={{ title: "Communications" }}
-            name="Communication"
-            component={CommunicationScreen}
-          />
-          <Stack.Screen
-            options={{ title: "Help Desk" }}
-            name="HelpDesk"
-            component={HelpDeskScreen}
-          />
-          <Stack.Screen
-            options={{ title: "Emergency No.s" }}
-            name="EmergencyNumber"
-            component={EmergencyNumberScreen}
-          />
-          <Stack.Screen
-            options={{ title: "Amenities" }}
-            name="Amenities"
-            component={AmenitiesScreen}
-          />
-          <Stack.Screen
-            options={{ title: "Residents" }}
-            name="Resident"
-            component={ResidentScreen}
-          />
-          <Stack.Screen
-            options={{ title: "Modal" }}
-            name="ActionBottomSheet"
-            component={ActionScreen}
-          />
-          <Stack.Screen
-            options={{ title: "Start a Discussion" }}
-            name="AddDiscussion"
-            component={AddDiscussionScreen}
-          />
-          <Stack.Screen
-            options={{ title: "Discussion" }}
-            name="DiscussionDetail"
-            component={DiscussionDetailScreen}
-          />
-          <Stack.Screen
-            options={{ title: "Daily Help" }}
-            name="DailyHelpDetail"
-            component={DailyHelpDetailScreen}
-          />
-          <Stack.Screen
-            options={{ title: "Documents" }}
-            name="Document"
-            component={DocumentScreen}
-          />
-          <Stack.Screen
-            options={{ title: "Household" }}
-            name="HouseHold"
-            component={HouseHoldScreen}
-          />
-          <Stack.Screen
-            options={{ title: "Home", headerShown: false }}
-            name="Home"
-            component={HomeScreen}
-          />
-          <Stack.Screen
-            options={{ title: "Community" }}
-            name="Community"
-            component={CommunityScreen}
-          />
-          <Stack.Screen
-            options={{ title: "Service" }}
-            name="Service"
-            component={ServiceScreen}
-          />
-          <Stack.Screen
-            options={{ title: "Profile" }}
-            name="Profile"
-            component={ProfileScreen}
-          />
+            <Stack.Screen name="Invites" component={InvitesScreen} />
+            <Stack.Screen
+              options={{ title: "Activities" }}
+              name="ViewAll"
+              component={ViewAllScreen}
+            />
+            <Stack.Screen
+              options={{ title: "Communications" }}
+              name="Communication"
+              component={CommunicationScreen}
+            />
+            <Stack.Screen
+              options={{ title: "Help Desk" }}
+              name="HelpDesk"
+              component={HelpDeskScreen}
+            />
+            <Stack.Screen
+              options={{ title: "Emergency No.s" }}
+              name="EmergencyNumber"
+              component={EmergencyNumberScreen}
+            />
+            <Stack.Screen
+              options={{ title: "Amenities" }}
+              name="Amenities"
+              component={AmenitiesScreen}
+            />
+            <Stack.Screen
+              options={{ title: "Residents" }}
+              name="Resident"
+              component={ResidentScreen}
+            />
+            <Stack.Screen
+              options={{ title: "Modal" }}
+              name="ActionBottomSheet"
+              component={ActionScreen}
+            />
+            <Stack.Screen
+              options={{ title: "Start a Discussion" }}
+              name="AddDiscussion"
+              component={AddDiscussionScreen}
+            />
+            <Stack.Screen
+              options={{ title: "Discussion" }}
+              name="DiscussionDetail"
+              component={DiscussionDetailScreen}
+            />
+            <Stack.Screen
+              options={{ title: "Daily Help" }}
+              name="DailyHelpDetail"
+              component={DailyHelpDetailScreen}
+            />
+            <Stack.Screen
+              options={{ title: "Documents" }}
+              name="Document"
+              component={DocumentScreen}
+            />
+            <Stack.Screen
+              options={{ title: "Household" }}
+              name="HouseHold"
+              component={HouseHoldScreen}
+            />
+            <Stack.Screen
+              options={{ title: "Home", headerShown: false }}
+              name="Home"
+              component={HomeScreen}
+            />
+            <Stack.Screen
+              options={{ title: "Community" }}
+              name="Community"
+              component={CommunityScreen}
+            />
+            <Stack.Screen
+              options={{ title: "Service" }}
+              name="Service"
+              component={ServiceScreen}
+            />
+            <Stack.Screen
+              options={{ title: "Profile" }}
+              name="Profile"
+              component={ProfileScreen}
+            />
+            <Stack.Screen
+              options={{ title: "Register" }}
+              name="Register"
+              component={RegisterScreen}
+            />
+          </Stack.Group>
+          <Stack.Group
+            screenOptions={{
+              presentation: "modal",
+            }}
+          >
+            <Stack.Screen name="MyModal" component={BottomSheetScreen} />
+          </Stack.Group>
+
           {/*      
       //Navigation bar */}
           {/* <Stack.Screen name="Community" component={CommunityScreen}/>
@@ -147,8 +176,15 @@ const MyStack = () => {
         <Stack.Screen name="Profile" component={ProfileScreen} />
         */}
         </Stack.Navigator>
-      </NavigationContainer>
 
+        {/* {activeTab === "Home" ||
+        activeTab === "Community" ||
+        activeTab === "Service" ||
+        activeTab === "Profile" ? (
+          <CustomBottomBar activeTab={activeTab} onTabPress={handleTabPress} />
+        ) : null} */}
+      </NavigationContainer>
+      {/* {true ? <BottomSheet show={true} setShow={setShow} /> : null} */}
       {/* <BottomNavigator/>   */}
     </SafeAreaProvider>
   );

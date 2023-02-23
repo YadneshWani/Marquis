@@ -474,9 +474,10 @@ const Home = ({ navigation, enableBackdropDismiss, show, onDismiss }) => {
               Rent
             </Text>
           </View>
+          <View></View>
         </View>
       </ScrollView>
-      <CustomBottomBar Style={{}} />
+      {/* <CustomBottomBar Style={{}} /> */}
 
       {/* <NavigationContainer independent={true}>
         <Tab.Navigator
@@ -516,6 +517,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.12,
     //flexDirection:'row',
     alignSelf: "center",
+    padding: 5,
   },
 
   Headings: {
@@ -537,6 +539,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     //alignSelf:'left',
     marginTop: 18,
+    padding: 5,
   },
   NoticeContainer: {
     backgroundColor: "#FFF4D2",
@@ -549,6 +552,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#CABE9B",
     alignSelf: "center",
+    padding: 5,
   },
 
   ServiceContainer: {
@@ -564,6 +568,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: -2, height: 0.12 },
     shadowOpacity: 0.12,
     justifyContent: "center",
+    padding: 5,
   },
   PaymentContainer: {
     backgroundColor: "white",
@@ -576,6 +581,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: -2, height: 0.12 },
     shadowOpacity: 0.12,
     alignSelf: "center",
+    padding: 5,
   },
 
   VisitorButtons: {

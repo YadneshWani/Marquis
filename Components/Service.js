@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Searchbar } from "react-native-paper";
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+import CustomBottomBar from "./CustomBottomBar";
 
 const Service = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
@@ -225,6 +226,7 @@ const Service = () => {
           </Text>
         </View>
       </View>
+      {/* <CustomBottomBar /> */}
     </View>
   );
 };
