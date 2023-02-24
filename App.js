@@ -165,7 +165,11 @@ const MyStack = () => {
               presentation: "modal",
             }}
           >
-            <Stack.Screen name="MyModal" component={BottomSheetScreen} />
+            <Stack.Screen
+              name="MyModal"
+              component={BottomSheetScreen}
+              title="Quick Actions"
+            />
           </Stack.Group>
 
           {/*      
