@@ -1,7 +1,49 @@
-import React from "react";
-import { View, StyleSheet, Text, TextInput } from "react-native";
+import React, { useRef, useState } from "react";
+import { View, StyleSheet, Text, TextInput, Alert } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
+import { firebaseConfig } from "../config";
+import firebase from "firebase/compat/app";
+import { useNavigation } from "@react-navigation/native";
+
 const SignIn = () => {
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [code, setCode] = useState("");
+  const [verificationId, setVerificationId] = useState(null);
+  const [state, setState] = useState("send");
+  const recaptchaVerifier = useRef(null);
+  const navigation = useNavigation();
+
+  const sendVerification = () => {
+    const phoneProvider = new firebase.auth.PhoneAuthProvider();
+    phoneProvider
+      .verifyPhoneNumber(phoneNumber, recaptchaVerifier.current)
+      .then(setVerificationId);
+
+    setPhoneNumber("");
+    setState("verify");
+  };
+
+  const confirmCode = () => {
+    const credential = firebase.auth.PhoneAuthProvider.credential(
+      verificationId,
+      code
+    );
+    firebase
+      .auth()
+      .signInWithCredential(credential)
+      .then(() => {
+        setCode("");
+        navigation.navigate("MainController");
+      })
+      .catch((error) => {
+        alert(error);
+      });
+
+    // navigation.navigate("Home");
+    setState("send");
+  };
+
   return (
     <View
       style={{
@@ -12,6 +54,10 @@ const SignIn = () => {
         marginTop: 170,
       }}
     >
+      <FirebaseRecaptchaVerifierModal
+        ref={recaptchaVerifier}
+        firebaseConfig={firebaseConfig}
+      />
       <Text
         style={{
           width: 55,
@@ -24,12 +70,56 @@ const SignIn = () => {
       >
         Login
       </Text>
-      <TextInput
-        style={styles.inputStyle}
-        keyboardType={"number-pad"}
-        placeholder="Phone Number"
-      />
-      <TouchableOpacity>
+      {state == "send" ? (
+        <TextInput
+          style={styles.inputStyle}
+          keyboardType={"phone-pad"}
+          onChangeText={setPhoneNumber}
+          placeholder="Enter Phone Number with country Code"
+          clearButtonMode="always"
+        />
+      ) : (
+        <TextInput
+          style={styles.inputStyle}
+          //keyboardType={"number-pad"}
+          onChangeText={setCode}
+          placeholder="Enter the Code"
+          clearButtonMode="always"
+        />
+      )}
+      {state == "send" ? (
+        <TouchableOpacity onPress={sendVerification}>
+          <View style={styles.GetOtpBtn}>
+            <Text
+              style={{
+                fontSize: 20,
+                color: "white",
+                fontWeight: "700",
+                margin: 17,
+              }}
+            >
+              GET OTP
+            </Text>
+          </View>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity onPress={confirmCode}>
+          <View style={styles.GetOtpBtn}>
+            <Text
+              style={{
+                fontSize: 20,
+                color: "white",
+                fontWeight: "700",
+                margin: 17,
+              }}
+            >
+              Verify
+            </Text>
+          </View>
+        </TouchableOpacity>
+      )}
+
+      {/* <TouchableOpacity onPress={confirmCode}>
         <View style={styles.GetOtpBtn}>
           <Text
             style={{
@@ -39,10 +129,10 @@ const SignIn = () => {
               margin: 17,
             }}
           >
-            GET OTP
+            Verify OTP
           </Text>
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
@@ -66,6 +156,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     borderRadius: 12,
     alignSelf: "center",
+    alignItems: "center",
   },
 });
 

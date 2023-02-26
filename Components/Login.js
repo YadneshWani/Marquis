@@ -61,13 +61,13 @@ const Login = () => {
             </View>
           )}
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {
               navigation.navigate("MainController");
             }}
           >
             <Text>Home</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         {/* <View
           style={{
