@@ -46,8 +46,9 @@ const BottomSheet = () => {
     <Text>Yadnesh </Text>
   </View>;
 };
-const MyTabs = () => {
+const MyTabs = ({ route }) => {
   const [show, setShow] = useState(false);
+  console.log("myTab " + route.params.phoneNumber);
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -83,7 +84,8 @@ const MyTabs = () => {
     >
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        children={() => <HomeScreen phoneNumber={route.params.phoneNumber} />}
+        //component={HomeScreen}
         options={{ headerShown: false }}
       />
       {/* <Tab.Screen name="Login" component={LoginScreen} />  */}

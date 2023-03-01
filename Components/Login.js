@@ -1,14 +1,42 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text, TextInput } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Text, TextInput, ScrollView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import SignIn from "./SignIn";
 import Register from "./Register";
+import { getSocietyData } from "../Services/SocietyRequest";
 
+const sData = [];
 const Login = () => {
   const navigation = useNavigation();
   const [state, setState] = useState(["SignIn"]);
+
+  //const [societyArray, setSocietyArray] = useState([]);
+  let societyArray = [];
+  let societyData;
+
+  async function getData() {
+    societyData = await getSocietyData();
+    sData.length = 0;
+    societyArray = societyData.data;
+    console.log("hello " + societyArray[0]);
+
+    for (let i = 0; i < societyArray.length; i++) {
+      sData.push({
+        id: i + 1,
+        value: societyArray[i].name,
+        society_id: societyArray[i].society_id,
+      });
+    }
+
+    console.log(sData);
+  }
+  useEffect(() => {
+    //   getHomeFeedData();
+    getData();
+  }, []);
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -19,7 +47,7 @@ const Login = () => {
         style={styles.gradient}
       >
         <View>
-          {state == "SignIn" ? <SignIn /> : <Register />}
+          {state == "SignIn" ? <SignIn /> : <Register societyNames={sData} />}
 
           {state == "SignIn" ? (
             <View
@@ -45,7 +73,7 @@ const Login = () => {
               style={{
                 alignSelf: "center",
                 flexDirection: "row",
-                marginTop: -40,
+                marginTop: -30,
               }}
             >
               <Text style={{ color: "#6E6E6E", fontSize: 14 }}>

@@ -35,13 +35,20 @@ import NoticeBoard from "./NoticeBoard";
 import { NavigationContainer } from "@react-navigation/native";
 import CustomBottomBar from "./CustomBottomBar";
 
-const Home = ({ navigation, enableBackdropDismiss, show, onDismiss }) => {
+const Home = ({
+  navigation,
+  enableBackdropDismiss,
+  show,
+  onDismiss,
+  phoneNumber,
+}) => {
   const [modalVisible, setModalVisible] = useState(false);
+  console.log("phoneNumber" + phoneNumber);
   return (
     <SafeAreaView style={styles.container}>
       <View>
         <View>
-          <Header />
+          <Header phoneNumber={phoneNumber} />
         </View>
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <Modal

@@ -1,30 +1,82 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { View, StyleSheet, Text, TextInput, Alert } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
 import { firebaseConfig } from "../config";
 import firebase from "firebase/compat/app";
 import { useNavigation } from "@react-navigation/native";
+import { getUserData } from "../Services/SignInRequest";
 
+let pno = "";
 const SignIn = () => {
+  let [present, setPresent] = useState("no");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [code, setCode] = useState("");
   const [verificationId, setVerificationId] = useState(null);
+  const [userArray, setUserArray] = useState([]);
+
   const [state, setState] = useState("send");
   const recaptchaVerifier = useRef(null);
   const navigation = useNavigation();
+  let userData;
+  let p = "no";
 
+  async function getData() {
+    userData = await getUserData();
+    setUserArray(userData.data);
+    console.log(userData.data[1].contact);
+  }
+  useEffect(() => {
+    //   getHomeFeedData();
+    getData();
+  }, []);
+
+  const phoneNumberVerify = () => {
+    userArray.map((user, index) => {
+      let phno = user.contact.toString();
+      //pno = user.contact;
+      phno = "+91" + phno;
+      // console.log("Phone number of stirng " + phno);
+      // console.log("inside map" + index);
+      // console.log("phno " + phoneNumber);
+      if (phno == phoneNumber.toString()) {
+        p = "yes";
+        pno = user.contact;
+        // console.log("inside map if ");
+        // setPresent("yes");
+      }
+    });
+    console.log("singIn " + pno);
+    sendVerification();
+  };
   const sendVerification = () => {
-    const phoneProvider = new firebase.auth.PhoneAuthProvider();
-    phoneProvider
-      .verifyPhoneNumber(phoneNumber, recaptchaVerifier.current)
-      .then(setVerificationId);
+    // userArray.map((user, index) => {
+    //   console.log("inside map" + index);
+    //   console.log("phno " + phoneNumber);
+    //   if (user.contact == phoneNumber) {
+    //     setPresent("yes");
+    //     console.log("inside map if ");
+    //   }
+    // });
 
-    setPhoneNumber("");
-    setState("verify");
+    console.log(p);
+    const phoneProvider = new firebase.auth.PhoneAuthProvider();
+
+    if (p == "yes") {
+      phoneProvider
+        .verifyPhoneNumber(phoneNumber, recaptchaVerifier.current)
+        .then(setVerificationId);
+      setPhoneNumber("");
+      setState("verify");
+      p = "no";
+    } else {
+      alert("User not registered");
+      setPhoneNumber("");
+    }
   };
 
   const confirmCode = () => {
+    console.log("pno " + pno);
     const credential = firebase.auth.PhoneAuthProvider.credential(
       verificationId,
       code
@@ -34,7 +86,9 @@ const SignIn = () => {
       .signInWithCredential(credential)
       .then(() => {
         setCode("");
-        navigation.navigate("MainController");
+        navigation.navigate("MainController", {
+          phoneNumber: pno,
+        });
       })
       .catch((error) => {
         alert(error);
@@ -88,7 +142,7 @@ const SignIn = () => {
         />
       )}
       {state == "send" ? (
-        <TouchableOpacity onPress={sendVerification}>
+        <TouchableOpacity onPress={phoneNumberVerify}>
           <View style={styles.GetOtpBtn}>
             <Text
               style={{

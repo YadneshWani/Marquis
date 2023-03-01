@@ -1,16 +1,18 @@
-import react, { useState } from "react";
+import react, { useState, useEffect } from "react";
 
 import { View, StyleSheet, Text, TextInput, Image } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import OwnerRegistration from "./OwnerRegistration";
 import TenantRegistration from "./TenantRegistration";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import image1 from "../assets/default_user.jpg";
-const Register = () => {
+import { getSocietyData } from "../Services/SocietyRequest";
+const Register = ({ societyNames }) => {
   const [state, setState] = useState("Owner");
   const [image, setImage] = useState(null);
+  console.log("nmes " + societyNames);
   const pickImage = async () => {
     console.log("inside");
     // No permissions request is necessary for launching the image library
@@ -27,14 +29,15 @@ const Register = () => {
       setImage(result.uri);
     }
   };
+
   return (
     <View
       style={{
         width: 350,
-        height: 630,
+        height: 670,
         backgroundColor: "white",
         borderRadius: 12,
-        marginTop: 70,
+        marginTop: 30,
       }}
     >
       <Text
@@ -122,7 +125,11 @@ const Register = () => {
         </TouchableOpacity>
       </View>
 
-      {state == "Owner" ? <OwnerRegistration /> : <TenantRegistration />}
+      {state == "Owner" ? (
+        <OwnerRegistration imageURI={image} societyNames={societyNames} />
+      ) : (
+        <TenantRegistration imageURI={image} societyNames={societyNames} />
+      )}
     </View>
   );
 };

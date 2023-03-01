@@ -30,9 +30,9 @@ const Resident = () => {
           for (let j = 0; j < societyArray[i].wings.length; j++) {
             wData.push({
               key: j + 1,
-              value: societyArray[i].wings[j].wing.name,
-              floor: societyArray[i].wings[j].wing.floor,
-              flat: societyArray[i].wings[j].wing.flat_per_floor_count,
+              value: societyArray[i].wings[j].name,
+              floor: societyArray[i].wings[j].floor,
+              flat: societyArray[i].wings[j].flat_per_floor_count,
             });
           }
         }
