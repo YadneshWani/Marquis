@@ -7,10 +7,16 @@ const StartDatePicker = () => {
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(true);
 
-  const onChange = (event, selectedDate) => {
+  const onStartDateChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setShow(false);
     setDate(currentDate);
+  };
+
+  const onEndDateChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    //setDate(currentDate);
   };
 
   //const d = new Date(date.setDate(date.getDate() + 30));
@@ -65,7 +71,7 @@ const StartDatePicker = () => {
             value={date}
             mode={mode}
             is24Hour={true}
-            onChange={onChange}
+            onChange={onStartDateChange}
             style={{
               marginTop: 0,
               width: 85,
@@ -86,7 +92,7 @@ const StartDatePicker = () => {
             is24Hour={true}
             maximumDate={new Date(date.setDate(date.getDate() + 30))}
             minimumDate={new Date(date.setDate(date.getDate() - 30))}
-            onChange={onChange}
+            onChange={onEndDateChange}
             style={{
               marginTop: 0,
               width: 85,

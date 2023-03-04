@@ -91,7 +91,9 @@ const Login = () => {
 
           {/* <TouchableOpacity
             onPress={() => {
-              navigation.navigate("MainController");
+              navigation.navigate("MainController",{
+
+              });
             }}
           >
             <Text>Home</Text>

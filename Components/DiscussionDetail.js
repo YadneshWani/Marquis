@@ -46,7 +46,16 @@ const DiscussionDetail = ({ route }) => {
             renderItem={({ item, index }) => (
               <View style={styles.items}>
                 <View style={{ flexDirection: "row" }}>
-                  <View style={styles.itemProfile}></View>
+                  {route.params.image != null ? (
+                    <Image
+                      source={{
+                        uri: route.params.image || route.params.image,
+                      }}
+                      style={styles.itemProfile}
+                    />
+                  ) : (
+                    <Image source={{}} style={styles.itemProfile} />
+                  )}
                   <View>
                     <Text style={styles.itemText}>{item.data.title}</Text>
                     <View style={styles.tag}>
@@ -67,7 +76,16 @@ const DiscussionDetail = ({ route }) => {
                   </View>
                 </View>
                 <View style={{ flexDirection: "row" }}>
-                  <View style={styles.smallItemProfile}></View>
+                  {route.params.image != null ? (
+                    <Image
+                      source={{
+                        uri: route.params.image || route.params.image,
+                      }}
+                      style={styles.smallItemProfile}
+                    />
+                  ) : (
+                    <View style={styles.smallItemProfile}></View>
+                  )}
                   <View>
                     <Text
                       style={{
@@ -82,11 +100,18 @@ const DiscussionDetail = ({ route }) => {
                     </Text>
                   </View>
                 </View>
-                <Image
-                  source={require("../assets/Images/sample.png")}
-                  style={{ width: 100, height: 100, alignSelf: "center" }}
-                />
-                <Text style={{ marginLeft: 20, marginRight: 30, marginTop: 5 }}>
+                {route.params.image != null ? (
+                  <Image
+                    source={{
+                      uri: route.params.image || route.params.image,
+                    }}
+                    style={{ width: 250, height: 150, alignSelf: "center" }}
+                  />
+                ) : null}
+
+                <Text
+                  style={{ marginLeft: 20, marginRight: 30, marginTop: 10 }}
+                >
                   {item.data.description}
                 </Text>
               </View>
@@ -108,7 +133,7 @@ const styles = StyleSheet.create({
   },
   DiscussionContainer: {
     width: 328,
-    height: 270,
+    height: 350,
     borderRadius: 12,
     backgroundColor: "white",
     marginTop: 10,

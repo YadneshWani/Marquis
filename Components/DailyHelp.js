@@ -14,7 +14,7 @@ import { ActivityIndicator } from "react-native-paper";
 const helpData = [];
 const DailyHelp = ({ navigation }) => {
   const [societyArray, setSocietyArray] = useState([]);
-  const [helperData, setHelperData] = useState([]);
+  //const [helperData, setHelperData] = useState([]);
   const [loading, setLoading] = useState(false);
   async function getData() {
     if (loading) {
@@ -22,9 +22,9 @@ const DailyHelp = ({ navigation }) => {
     }
     setLoading(true);
     const societyData = await getSocietyData();
-    setSocietyArray(societyData.data);
-
-    societyArray.map((item) => {
+    //setSocietyArray(societyData.data);
+    helpData.length = 0;
+    societyData.data.map((item) => {
       if (item.society_id == "jYzPlMP") {
         console.log("Inside New If");
         item.emergency_numbers.map((emgNo) => {
@@ -44,9 +44,9 @@ const DailyHelp = ({ navigation }) => {
     //     }
 
     // }
-    setHelperData(helpData);
+    //setHelperData(helpData);
     setLoading(false);
-    console.log(helperData);
+    console.log(helpData);
   }
   useEffect(() => {
     getData();
@@ -58,7 +58,7 @@ const DailyHelp = ({ navigation }) => {
       {!loading ? (
         <FlatList
           //numColumns={1}
-          data={helperData}
+          data={helpData}
           renderItem={({ item, index }) => (
             <View>
               <TouchableOpacity

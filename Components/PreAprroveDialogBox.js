@@ -142,12 +142,15 @@ export default PreAprroveDialogBox;
 const styles = StyleSheet.create({
   container: {
     width: 300,
-    height: 300,
+    height: 220,
     backgroundColor: "white",
-    borderRadius: 12,
+    borderRadius: 20,
     alignItems: "center",
     marginTop: 150,
     margin: 50,
+    shadowOffset: { width: -3, height: 0.22 },
+    shadowOpacity: 0.7,
+    shadowColor: "gray",
   },
   item: {
     color: "black",

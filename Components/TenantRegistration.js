@@ -132,6 +132,7 @@ const TenantRegistration = ({ societyNames, imageURI }) => {
     console.log("floor Number " + floorNumber);
     console.log("flat Number " + flatNumber);
     console.log("type Tenant");
+    alert("User added Successfully...");
   };
   return (
     <View>

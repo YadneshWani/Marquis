@@ -134,6 +134,7 @@ const OwnerRegistration = ({ societyNames, imageURI }) => {
     console.log("flat Number " + flatNumber);
     console.log("type Owner");
     // Toast.show("User Added Successfully..");
+    alert("User added Successfully...");
   };
   return (
     <View>

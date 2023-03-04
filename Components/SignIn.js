@@ -187,6 +187,13 @@ const SignIn = () => {
           </Text>
         </View>
       </TouchableOpacity> */}
+      {/* <TouchableOpacity
+        onPress={navigation.navigate("MainController", {
+          phoneNumber: pno,
+        })}
+      >
+        <Text> Home </Text>
+      </TouchableOpacity> */}
     </View>
   );
 };

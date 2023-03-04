@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,12 +6,30 @@ import {
   TextInput,
   TouchableOpacity,
   Button,
+  Image,
 } from "react-native";
+import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
-const AddDiscussion = () => {
+const AddDiscussion = ({ route }) => {
   const [title, setTitle] = React.useState("");
   const [desc, setDesc] = React.useState("");
+  const [image, setImage] = useState(null);
+  const pickImage = async () => {
+    console.log("inside");
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
 
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
   const f1 = () => {
     axios({
       method: "POST",
@@ -19,10 +37,12 @@ const AddDiscussion = () => {
       data: {
         title: title,
         description: desc,
-        image: "iamgess",
-        author_id: "IdZ7IJB",
+        image: image,
+        author_id: route.params.userId,
       },
     });
+
+    alert("Discussion Added Successfully..");
   };
   return (
     <View style={styles.container}>
@@ -72,10 +92,13 @@ const AddDiscussion = () => {
       </View>
 
       <View style={{ marginTop: 10, marginRight: 220 }}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={pickImage}>
           <Text style={{ color: "#1C6ECD" }}>Attach Photo</Text>
         </TouchableOpacity>
       </View>
+      {image != null ? (
+        <Image source={{ uri: image || image }} style={styles.imageStyle} />
+      ) : null}
 
       <TouchableOpacity onPress={f1}>
         <View style={styles.SubmitButton}>
@@ -107,6 +130,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#6E815F",
     borderRadius: 12,
     marginTop: 20,
+  },
+  imageStyle: {
+    marginTop: 10,
+    height: 200,
+    width: 300,
   },
 });
 export default AddDiscussion;

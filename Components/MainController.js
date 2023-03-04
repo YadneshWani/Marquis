@@ -116,7 +116,13 @@ const MyTabs = ({ route }) => {
         })}
       />
       <Tab.Screen name="Service" component={ServiceScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen
+        name="Profile"
+        children={() => (
+          <ProfileScreen phoneNumber={route.params.phoneNumber} />
+        )}
+        // component={ProfileScreen}
+      />
     </Tab.Navigator>
   );
 };

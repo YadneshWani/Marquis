@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-
 import {
   View,
   Text,
@@ -11,11 +10,14 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { getSocietyData } from "../Services/SocietyRequest";
 import { ActivityIndicator } from "react-native-paper";
 import call from "react-native-phone-call";
+import { getUserData } from "../Services/SignInRequest";
 
 let helperData = [];
-const EmergencyNumber = () => {
-  const [societyArray, setSocietyArray] = useState([]);
+const EmergencyNumber = ({ route }) => {
+  //const [societyArray, setSocietyArray] = useState([]);
   const [loading, setLoading] = useState(false);
+  let userData = [];
+  let societyId;
   async function getData() {
     if (loading) {
       return;
@@ -23,10 +25,18 @@ const EmergencyNumber = () => {
     setLoading(true);
 
     const societyData = await getSocietyData();
-    setSocietyArray(societyData.data);
+    userData = await getUserData();
+
+    for (let i = 0; i < userData.data.length; i++) {
+      if (userData.data[i].contact == route.params.phoneNumber) {
+        societyId = userData.data[i].society_id;
+      }
+    }
+    //setSocietyArray(societyData.data);
     setLoading(false);
-    for (let i = 0; i < societyArray.length; i++) {
-      if (societyData.data[i].society_id == "jYzPlMP") {
+    helperData.length = 0;
+    for (let i = 0; i < societyData.data.length; i++) {
+      if (societyData.data[i].society_id == societyId) {
         //console.log("Inside if");
         for (let j = 0; j < societyData.data[i].emergency_numbers.length; j++) {
           helperData.push(societyData.data[i].emergency_numbers[j]);

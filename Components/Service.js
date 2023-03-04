@@ -22,13 +22,13 @@ const Service = () => {
           name="shoppingcart"
           size={24}
           color="#819670"
-          style={{ marginTop: 14, marginLeft: 5 }}
+          style={{ marginTop: 20, marginLeft: 5 }}
         />
         <Feather
           name="shopping-bag"
           size={20}
           color="#819670"
-          style={{ marginTop: 14, marginLeft: 5 }}
+          style={{ marginTop: 22, marginLeft: 5 }}
         />
       </View>
       <View style={styles.ServiceInDemandContainer}>
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
   },
   searchBar: {
     width: 241,
-    height: 18,
+    height: 28,
     borderRadius: 12,
     marginTop: 16,
     marginLeft: 16,

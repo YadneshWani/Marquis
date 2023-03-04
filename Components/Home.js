@@ -32,16 +32,11 @@ import ActionScreen from "./Actions";
 import DirectoryScreen from "./Service";
 import NoticeBoard from "./NoticeBoard";
 
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import CustomBottomBar from "./CustomBottomBar";
 
-const Home = ({
-  navigation,
-  enableBackdropDismiss,
-  show,
-  onDismiss,
-  phoneNumber,
-}) => {
+const Home = ({ enableBackdropDismiss, show, onDismiss, phoneNumber }) => {
+  const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   console.log("phoneNumber" + phoneNumber);
   return (
@@ -225,7 +220,9 @@ const Home = ({
               <TouchableOpacity
                 style={{ marginTop: 0, flex: 1 }}
                 onPress={() => {
-                  navigation.navigate("Communication");
+                  navigation.navigate("Communication", {
+                    phoneNumber: phoneNumber,
+                  });
                 }}
               >
                 <MaterialCommunityIcons
@@ -247,7 +244,9 @@ const Home = ({
               <TouchableOpacity
                 style={{ flex: 1 }}
                 onPress={() => {
-                  navigation.navigate("EmergencyNumber");
+                  navigation.navigate("EmergencyNumber", {
+                    phoneNumber: phoneNumber,
+                  });
                 }}
               >
                 <Feather name="alert-triangle" size={40} color="#434F39" />

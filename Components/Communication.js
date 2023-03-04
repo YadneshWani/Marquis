@@ -9,6 +9,7 @@ import {
   FlatList,
   SafeAreaView,
   ActivityIndicator,
+  Image,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
@@ -19,20 +20,31 @@ import { Entypo } from "@expo/vector-icons";
 import { getDiscussionData } from "../Services/DiscussionRequest";
 import axios from "axios";
 import DiscussionDetail from "./DiscussionDetail";
+import sampleImage from "../assets/Images/sample.png";
+import { getUserData } from "../Services/SignInRequest";
+//import { panHandlerName } from "react-native-gesture-handler/lib/typescript/handlers/PanGestureHandler";
 
-const Communication = ({ navigation }) => {
+const Communication = ({ navigation, route }) => {
   let count = 0;
   let j = 0;
   const [user, setUser] = useState([]);
   const [feedArray, setFeedArray] = useState([]);
+  const [userId, setUserId] = useState("");
   const [desc, setDesc] = useState({ data: "" });
   let authorArray = [];
   let userArray = [];
-
+  let userData = [];
   async function getData() {
     const DiscussionData = await getDiscussionData();
+    userData = await getUserData();
     setFeedArray(DiscussionData.data);
     //console.log(DiscussionData.data);
+
+    for (let i = 0; i < userData.data.length; i++) {
+      if (userData.data[i].contact == route.params.phoneNumber) {
+        setUserId(userData.data[i].user_id);
+      }
+    }
 
     DiscussionData.data.forEach((item, index) =>
       authorArray.push(item.author_id)
@@ -127,15 +139,28 @@ const Communication = ({ navigation }) => {
               onPress={() => {
                 navigation.navigate("DiscussionDetail", {
                   descKey: item.discussion_id,
-                  name: funcUserName(item.author_id),
+                  name: funcUserName(feedArray[index].author_id),
                   date: funcDate(feedArray[index].createdAt),
+                  image: feedArray[index].image,
+                  userId: userId,
                 });
               }}
             >
               {/* <DiscussionDetail DiscussionID={item}/>  */}
               <View style={styles.items}>
                 <View style={{ flexDirection: "row" }}>
-                  <View style={styles.itemProfile}></View>
+                  <View>
+                    {feedArray[index].image != null ? (
+                      <Image
+                        source={{
+                          uri: feedArray[index].image || feedArray[index].image,
+                        }}
+                        style={styles.itemProfile}
+                      />
+                    ) : (
+                      <View style={styles.itemProfile}></View>
+                    )}
+                  </View>
                   <View>
                     <Text style={styles.itemText}>{item.title}</Text>
                     <View style={styles.tag}>
@@ -185,7 +210,16 @@ const Communication = ({ navigation }) => {
                   </View>
                 </View>
                 <View style={{ flexDirection: "row" }}>
-                  <View style={styles.smallItemProfile}></View>
+                  {feedArray[index].image != null ? (
+                    <Image
+                      source={{
+                        uri: feedArray[index].image || feedArray[index].image,
+                      }}
+                      style={styles.smallItemProfile}
+                    />
+                  ) : (
+                    <View style={styles.smallItemProfile}></View>
+                  )}
                   <View>
                     <Text
                       style={{
@@ -246,7 +280,13 @@ const Communication = ({ navigation }) => {
       )}
 
       <View style={{ marginLeft: 280, marginTop: 20 }}>
-        <TouchableOpacity onPress={() => navigation.navigate("AddDiscussion")}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("AddDiscussion", {
+              userId: userId,
+            })
+          }
+        >
           <Entypo name="circle-with-plus" size={80} color="#6E815F" />
         </TouchableOpacity>
       </View>

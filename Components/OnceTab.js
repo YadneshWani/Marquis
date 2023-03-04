@@ -11,7 +11,7 @@ const OnceTab = () => {
   const Once = [
     {
       id: "1",
-      name: "Contacts",
+      name: "Contacts          ",
     },
     {
       id: "2",
@@ -57,12 +57,10 @@ const OnceTab = () => {
         data={Once}
         renderItem={({ item }) => (
           <View>
-            <TouchableOpacity
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
+            <TouchableOpacity style={{ flexDirection: "row", marginLeft: 30 }}>
               <Text style={styles.item}>{item.name}</Text>
               <MaterialIcons
-                style={{ marginTop: 0, marginRight: 18 }}
+                style={{ marginTop: 0, marginLeft: 100 }}
                 name="arrow-forward-ios"
                 size={18}
                 color="#434F39"

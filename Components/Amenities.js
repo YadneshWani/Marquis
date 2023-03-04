@@ -41,12 +41,13 @@ const persons = [
     name: "Lorem Ipsum",
   },
 ];
+let amenityArray = [];
+let amenityData = [];
 const Amemities = () => {
-  const [amenityArray, setAmenityArray] = useState([]);
   async function getData() {
-    const amenityData = await getAmenityData();
-    setAmenityArray(amenityData.data);
-    console.log(data);
+    amenityData = await getAmenityData();
+    amenityArray = amenityData.data;
+    console.log(amenityArray[1].working_hours.startTime);
   }
   useEffect(() => {
     //   getHomeFeedData();
@@ -55,7 +56,7 @@ const Amemities = () => {
 
   return (
     <View style={styles.container}>
-      {amenityArray ? (
+      {
         <FlatList
           //numColumns={1}
           data={amenityArray}
@@ -72,7 +73,7 @@ const Amemities = () => {
                   <Text
                     style={{ marginLeft: 22, fontSize: 12, color: "#6E6E6E" }}
                   >
-                    {item.working_hours}
+                    {item.working_hours.startTime}
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -89,9 +90,7 @@ const Amemities = () => {
           )}
           keyExtractor={(item, index) => index}
         />
-      ) : (
-        <ActivityIndicator size={"large"} />
-      )}
+      }
     </View>
   );
 };
