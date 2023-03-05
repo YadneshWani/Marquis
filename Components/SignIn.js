@@ -6,6 +6,7 @@ import { firebaseConfig } from "../config";
 import firebase from "firebase/compat/app";
 import { useNavigation } from "@react-navigation/native";
 import { getUserData } from "../Services/SignInRequest";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 let pno = "";
 const SignIn = () => {
@@ -24,12 +25,39 @@ const SignIn = () => {
   async function getData() {
     userData = await getUserData();
     setUserArray(userData.data);
-    console.log(userData.data[1].contact);
+    console.log("phone Number " + userData.data[1].contact);
   }
   useEffect(() => {
     //   getHomeFeedData();
     getData();
+    getAsyncData();
   }, []);
+
+  const storeData = async () => {
+    console.log("inside set item");
+    try {
+      await AsyncStorage.setItem("phone_number", pno);
+    } catch (e) {
+      alert(e);
+    }
+  };
+
+  const getAsyncData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("phone_number");
+      console.log("value =====" + value);
+      if (value !== null) {
+        console.log("value " + value);
+        navigation.navigate("MainController", {
+          phoneNumber: value,
+        });
+      } else {
+        console.log("value=null");
+      }
+    } catch (e) {
+      alert(error);
+    }
+  };
 
   const phoneNumberVerify = () => {
     userArray.map((user, index) => {
@@ -96,6 +124,7 @@ const SignIn = () => {
 
     // navigation.navigate("Home");
     setState("send");
+    storeData();
   };
 
   return (

@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   FlatList,
+  ScrollView,
 } from "react-native";
 
 import { getNoticeData } from "../Services/NoticeRequest";
@@ -44,25 +45,26 @@ const NoticeBoard = () => {
       ) : (
         <ActivityIndicator size={"small "} />
       )} */}
-
-      {noticeArray ? (
-        noticeArray.map((item, index) => (
-          <View style={styles.NoticeContainer}>
-            <Text
-              style={{
-                color: "#585858",
-                marginLeft: 8,
-                marginRight: 10,
-                marginTop: 0,
-              }}
-            >
-              {item.description}
-            </Text>
-          </View>
-        ))
-      ) : (
-        <ActivityIndicator size={"small "} />
-      )}
+      <ScrollView>
+        <View style={styles.NoticeContainer}>
+          {noticeArray ? (
+            noticeArray.map((item, index) => (
+              <Text
+                style={{
+                  color: "#585858",
+                  marginLeft: 8,
+                  marginRight: 10,
+                  marginTop: 10,
+                }}
+              >
+                {item.description} posted by :- {item.name}
+              </Text>
+            ))
+          ) : (
+            <ActivityIndicator size={"small "} />
+          )}
+        </View>
+      </ScrollView>
     </View>
   );
 };

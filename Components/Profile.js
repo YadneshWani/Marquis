@@ -14,6 +14,7 @@ import { getUserData } from "../Services/SignInRequest";
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Profile = ({ phoneNumber }) => {
   let userData = [];
@@ -114,6 +115,15 @@ const Profile = ({ phoneNumber }) => {
     console.log(type);
     console.log(userId);
     console.log(address);
+  };
+
+  const logoutUser = async () => {
+    try {
+      await AsyncStorage.removeItem("phone_number");
+      navigation.navigate("Login");
+    } catch (e) {
+      alert(e);
+    }
   };
   return (
     <View style={styles.container}>
@@ -283,12 +293,17 @@ const Profile = ({ phoneNumber }) => {
           ></View>
 
           <View style={styles.bodyContentStyle}>
-            <View style={styles.smallItemProfile}></View>
-            <View style={{ marginTop: 10 }}>
-              <Text style={{ fontWeight: "700", fontSize: 16, marginTop: 8 }}>
-                Logout
-              </Text>
-            </View>
+            <TouchableOpacity
+              style={{ flexDirection: "row" }}
+              onPress={logoutUser}
+            >
+              <View style={styles.smallItemProfile}></View>
+              <View style={{ marginTop: 10 }}>
+                <Text style={{ fontWeight: "700", fontSize: 16, marginTop: 8 }}>
+                  Logout
+                </Text>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
