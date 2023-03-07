@@ -6,6 +6,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Image,
+  FlatList,
 } from "react-native";
 import background from "../assets/Images/Background.png";
 import { EvilIcons } from "@expo/vector-icons";
@@ -13,13 +14,18 @@ import CustomBottomBar from "./CustomBottomBar";
 import { getUserData } from "../Services/SignInRequest";
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+//import { black } from "react-native-paper/lib/typescript/styles/colors";
 
 const Profile = ({ phoneNumber }) => {
   let userData = [];
+  let familyData = [];
+  let vData = [];
   let imageURI;
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
   const [userId, setUserId] = useState("");
   const [email, setEmail] = useState("");
   const [flatNo, setFlatNo] = useState("");
@@ -33,6 +39,11 @@ const Profile = ({ phoneNumber }) => {
   const [image, setImage] = useState("");
 
   const [flat, setFlat] = useState("");
+  const [householdData, setHouseHoldData] = useState([]);
+  const [usersData, setUsersData] = useState([]);
+  const [cardState, setCardState] = useState(false);
+  const [familysData, setFamilysData] = useState([]);
+  const [vehicleData, setVehicleData] = useState([]);
 
   console.log("profile Phone " + phoneNumber);
   async function getData() {
@@ -56,9 +67,23 @@ const Profile = ({ phoneNumber }) => {
         setSocietyId(userData.data[i].society_id);
         setType(userData.data[i].type);
         setAddress(userData.data[i].address);
+        setHouseHoldData(userData.data[i].household);
+        setUsersData(userData);
       }
     }
-    //console.log("title " + title);
+    console.log("Household Data " + householdData);
+    for (let i = 0; i < householdData.length; i++) {
+      if (householdData[i].type == "Family") {
+        console.log("inside family Data");
+        familyData.push(householdData[i]);
+      }
+      if (householdData[i].type == "Vehicle") {
+        vData.push(householdData[i]);
+      }
+    }
+    console.log("Family Data " + familyData);
+    setFamilysData(familyData);
+    setVehicleData(vData);
   }
   useEffect(() => {
     //   getHomeFeedData();
@@ -101,6 +126,7 @@ const Profile = ({ phoneNumber }) => {
         type: type,
         user_id: userId,
         address: address,
+        household: householdData,
       },
     });
 
@@ -115,6 +141,7 @@ const Profile = ({ phoneNumber }) => {
     console.log(type);
     console.log(userId);
     console.log(address);
+    console.log(householdData);
   };
 
   const logoutUser = async () => {
@@ -127,55 +154,270 @@ const Profile = ({ phoneNumber }) => {
   };
   return (
     <View style={styles.container}>
-      <View style={styles.profileStyle}>
-        {image != null ? (
-          <Image
-            source={{
-              uri: image || image,
-            }}
-            style={styles.profileIcon}
-          />
-        ) : (
-          <View style={styles.profileIcon}></View>
-        )}
-        <View>
-          <Text
-            style={{
-              fontSize: 24,
-              fontWeight: "500",
-              marginTop: 12,
-              marginLeft: 12,
+      {/* profile card */}
+
+      {!cardState ? (
+        <View style={styles.profileStyle}>
+          {image != null ? (
+            <Image
+              source={{
+                uri: image || image,
+              }}
+              style={styles.profileIcon}
+            />
+          ) : (
+            <View style={styles.profileIcon}></View>
+          )}
+          <View>
+            <Text
+              style={{
+                fontSize: 24,
+                fontWeight: "500",
+                marginTop: 12,
+                marginLeft: 12,
+              }}
+            >
+              {name}
+            </Text>
+            <Text
+              style={{
+                fontSize: 24,
+                fontWeight: "500",
+                marginLeft: 12,
+                color: "#434F39",
+              }}
+            >
+              {flat}
+            </Text>
+            <Text style={{ fontWeight: "400", marginLeft: 12, fontSize: 14 }}>
+              Resident
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={{ marginLeft: 60, marginTop: 2 }}
+            onPress={pickImage}
+          >
+            <ImageBackground
+              source={background}
+              resizeMode="cover"
+              style={styles.editButton}
+            >
+              <EvilIcons name="pencil" size={28} color="white" />
+            </ImageBackground>
+          </TouchableOpacity>
+
+          {/* profile card view Button  */}
+          <TouchableOpacity
+            style={{ marginLeft: -60, marginTop: 2 }}
+            onPress={() => {
+              setCardState(!cardState);
             }}
           >
-            {name}
-          </Text>
-          <Text
-            style={{
-              fontSize: 24,
-              fontWeight: "500",
-              marginLeft: 12,
-              color: "#434F39",
-            }}
-          >
-            {flat}
-          </Text>
-          <Text style={{ fontWeight: "400", marginLeft: 12, fontSize: 14 }}>
-            Resident
-          </Text>
+            <ImageBackground
+              source={background}
+              resizeMode="cover"
+              style={styles.viewButton}
+            >
+              <MaterialCommunityIcons
+                name="card-bulleted-outline"
+                size={22}
+                color="white"
+              />
+            </ImageBackground>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={{ marginLeft: 60, marginTop: 2 }}
-          onPress={pickImage}
-        >
-          <ImageBackground
-            source={background}
-            resizeMode="cover"
-            style={styles.editButton}
-          >
-            <EvilIcons name="pencil" size={35} color="white" />
-          </ImageBackground>
-        </TouchableOpacity>
-      </View>
+      ) : (
+        <View style={styles.profileCardStyleContainer}>
+          <View style={styles.profileCardStyle}>
+            {image != null ? (
+              <Image
+                source={{
+                  uri: image || image,
+                }}
+                style={styles.profileIcon}
+              />
+            ) : (
+              <View style={styles.profileIcon}></View>
+            )}
+            <View>
+              <Text
+                style={{
+                  fontSize: 24,
+                  fontWeight: "500",
+                  marginTop: 12,
+                  marginLeft: 12,
+                }}
+              >
+                {name}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 24,
+                  fontWeight: "500",
+                  marginLeft: 12,
+                  color: "#434F39",
+                }}
+              >
+                {flat}
+              </Text>
+              <Text style={{ fontWeight: "400", marginLeft: 12, fontSize: 14 }}>
+                Resident
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={{ marginLeft: 60, marginTop: 2 }}
+              onPress={pickImage}
+            >
+              <ImageBackground
+                source={background}
+                resizeMode="cover"
+                style={styles.editButton}
+              >
+                <EvilIcons name="pencil" size={28} color="white" />
+              </ImageBackground>
+            </TouchableOpacity>
+
+            {/* profile card view Button  */}
+            <TouchableOpacity
+              style={{ marginLeft: -60, marginTop: 2 }}
+              onPress={() => {
+                setCardState(!cardState);
+              }}
+            >
+              <ImageBackground
+                source={background}
+                resizeMode="cover"
+                style={styles.viewButton}
+              >
+                <MaterialCommunityIcons
+                  name="card-bulleted-outline"
+                  size={22}
+                  color="white"
+                />
+              </ImageBackground>
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              borderWidth: 0.5,
+              borderColor: "#D9D9D9",
+              width: 352,
+              // marginLeft: -15,
+            }}
+          ></View>
+
+          {/* family */}
+
+          <View>
+            <Text
+              style={{
+                fontSize: 20,
+                color: "black",
+                fontWeight: "700",
+                marginLeft: 30,
+                marginTop: 10,
+              }}
+            >
+              Family
+            </Text>
+            <View style={{ flexDirection: "row" }}>
+              <FlatList
+                //numColumns={1}
+                data={familysData}
+                horizontal={true}
+                //extraData={familyData}
+                renderItem={({ item, index }) => (
+                  <View style={{ marginLeft: 30 }}>
+                    <Text
+                      style={{
+                        fontWeight: "500",
+                        fontSize: 15,
+
+                        marginTop: 5,
+                      }}
+                    >
+                      {item.name}
+                    </Text>
+                    <Text
+                      style={{
+                        fontWeight: "500",
+                        fontSize: 13,
+                        color: "#6E6E6E",
+                        marginTop: 5,
+                      }}
+                    >
+                      {item.contact}
+                    </Text>
+                  </View>
+                )}
+                keyExtractor={(item, index) => index}
+              />
+            </View>
+            <View
+              style={{
+                borderWidth: 0.5,
+                borderColor: "#D9D9D9",
+                width: 352,
+                marginTop: 10,
+                // marginLeft: -15,
+              }}
+            ></View>
+          </View>
+
+          {/* Vehicle  */}
+          <View>
+            <Text
+              style={{
+                fontSize: 20,
+                color: "black",
+                fontWeight: "700",
+                marginLeft: 30,
+                marginTop: 10,
+              }}
+            >
+              Vehicle
+            </Text>
+            <View style={{ flexDirection: "row" }}>
+              <FlatList
+                //numColumns={1}
+                data={vehicleData}
+                horizontal={true}
+                //extraData={familyData}
+                renderItem={({ item, index }) => (
+                  <View style={{ marginLeft: 30 }}>
+                    <Text
+                      style={{
+                        fontWeight: "500",
+                        fontSize: 15,
+
+                        marginTop: 5,
+                      }}
+                    >
+                      {item.name}
+                    </Text>
+                    <Text
+                      style={{
+                        fontWeight: "500",
+                        fontSize: 13,
+                        color: "#6E6E6E",
+                        marginTop: 5,
+                      }}
+                    >
+                      {item.vehicle_number}
+                    </Text>
+                  </View>
+                )}
+                keyExtractor={(item, index) => index}
+              />
+            </View>
+          </View>
+        </View>
+      )}
+
+      {/* </View> */}
+
+      {/* profile card end  */}
+
       <View style={styles.menuItem}>
         <View style={styles.body}>
           <View style={styles.bodyContentStyle}>
@@ -185,6 +427,8 @@ const Profile = ({ phoneNumber }) => {
                 onPress={() => {
                   navigation.navigate("HouseHold", {
                     userId: userId,
+                    phoneNumber: phoneNumber,
+                    userData: usersData,
                   });
                 }}
               >
@@ -336,12 +580,12 @@ const styles = StyleSheet.create({
     marginTop: 7,
   },
   editButton: {
-    width: 35,
-    height: 35,
+    width: 28,
+    height: 28,
     backgroundColor: "#6E815F",
     borderRadius: 12,
     alignSelf: "flex-start",
-    marginLeft: -20,
+    marginLeft: -5,
     marginTop: 5,
     marginRight: 0,
     justifyContent: "center",
@@ -373,6 +617,40 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 6,
     marginTop: 2,
+  },
+  profileCardStyleContainer: {
+    width: 352,
+    height: 300,
+    backgroundColor: "white",
+    borderRadius: 12,
+    alignSelf: "center",
+    marginTop: 30,
+    shadowOffset: { width: -2, height: "0.12" },
+    shadowOpacity: "0.12",
+    //flexDirection: "row",
+  },
+  profileCardStyle: {
+    width: 352,
+    height: 109,
+    backgroundColor: "white",
+    //borderRadius: 12,
+    alignSelf: "center",
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+
+    flexDirection: "row",
+  },
+  viewButton: {
+    width: 28,
+    height: 28,
+    backgroundColor: "#6E815F",
+    borderRadius: 12,
+    alignSelf: "flex-start",
+    marginLeft: 0,
+    marginTop: 5,
+    marginRight: 0,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 export default Profile;

@@ -1,4 +1,4 @@
-import react, { useEffect, useState } from "react";
+import react, { useEffect, useState, useRef } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   FlatList,
   ActivityIndicator,
   Image,
+  Modal,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { ImageBackground } from "react-native";
@@ -19,6 +20,8 @@ import { Feather } from "@expo/vector-icons";
 import axios from "axios";
 import call from "react-native-phone-call";
 import { getUserData } from "../Services/SignInRequest";
+import AddHouseHold from "./AddHouseHold";
+import { useNavigation } from "@react-navigation/native";
 const HouseHold = ({ route }) => {
   let familyArray = [];
   let guestArray = [];
@@ -26,6 +29,7 @@ const HouseHold = ({ route }) => {
   let vehicleArray = [];
   let userData = [];
   let HouseHoldData = [];
+  const [modalVisible, setModalVisible] = useState(false);
   const [family, setFamily] = useState([]);
   const [dailyHelp, setDailyHelp] = useState([]);
   const [vehicle, setVehicle] = useState([]);
@@ -33,17 +37,25 @@ const HouseHold = ({ route }) => {
   const [name, setName] = useState();
   const [image, setImage] = useState();
   const [title, setTitle] = useState();
+  const [usersData, setUsersData] = useState(route?.params?.userData);
+
+  let phoneNumber = route.params.phoneNumber;
+  console.log("Household Phone numebr :" + phoneNumber);
   // const [HouseHoldData, setHouseHoldData] = useState([]);
   async function getData() {
-    userData = await getUserData();
+    //userData = await getUserData();
+    //const navigation = useNavigation();
+    //const arr = route.params.userData;
+    //userData = route.params.userData;
+    //console.log("User Data ::::" + route.params.userData);
 
-    for (let i = 0; i < userData.data.length; i++) {
-      if (userData.data[i].user_id == route.params.userId) {
-        HouseHoldData = userData.data[i];
-        setImage(userData.data[i].profile_image);
-        setName(userData.data[i].name);
+    for (let i = 0; i < usersData.data.length; i++) {
+      if (usersData.data[i].user_id == route.params.userId) {
+        HouseHoldData = usersData.data[i];
+        setImage(usersData.data[i].profile_image);
+        setName(usersData.data[i].name);
         setTitle(
-          "" + userData.data[i].wing_name + "/" + userData.data[i].flat_no
+          "" + usersData.data[i].wing_name + "/" + usersData.data[i].flat_no
         );
       }
     }
@@ -96,6 +108,8 @@ const HouseHold = ({ route }) => {
     }
     console.log("family size  " + family);
     console.log("Daliy Help Size" + dailyHelp);
+    console.log("My Vehicle " + vehicle);
+    console.log("Guest " + guest);
   }
 
   useEffect(() => {
@@ -105,6 +119,24 @@ const HouseHold = ({ route }) => {
   return (
     <ScrollView>
       <View style={styles.container}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          // onRequestClose={() => {
+          //   Alert.alert("Modal has been closed.");
+          //   setModalVisible(!modalVisible);
+          // }}
+        >
+          {/* ()=>setModalVisible(!modalVisible)}></TouchableWithoutFeedback> */}
+
+          <AddHouseHold
+            phoneNumber={phoneNumber}
+            onDismiss={() => {
+              setModalVisible(false);
+            }}
+          />
+        </Modal>
         <View style={styles.profileStyle}>
           {image != null ? (
             <Image
@@ -175,8 +207,43 @@ const HouseHold = ({ route }) => {
                 //numColumns={1}
                 data={family}
                 horizontal={true}
+                extraData={family}
                 renderItem={({ item, index }) => (
-                  <View style={styles.smallItemProfile}></View>
+                  <View>
+                    <View style={styles.smallItemProfile}></View>
+                    <View>
+                      <Text style={styles.nameStyle}>{item.name}</Text>
+                    </View>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        marginTop: 10,
+                        marginLeft: 35,
+                        //width: 50,
+                      }}
+                    >
+                      <TouchableOpacity
+                        onPress={() => {
+                          const contact = item.contact.toString();
+                          const arg = {
+                            number: contact,
+                            prompt: true,
+                          };
+                          call(arg).catch(console.error);
+                        }}
+                      >
+                        <Ionicons
+                          name="call"
+                          size={24}
+                          color="#00DB92"
+                          style={{ marginRight: 10 }}
+                        />
+                      </TouchableOpacity>
+                      <TouchableOpacity>
+                        <AntDesign name="sharealt" size={24} color="black" />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
                 )}
                 keyExtractor={(item, index) => index}
               />
@@ -185,82 +252,14 @@ const HouseHold = ({ route }) => {
               <View style={styles.smallItemProfile}></View>
             ))} */}
             <View>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setModalVisible(true);
+                }}
+              >
                 <AntDesign name="pluscircle" size={50} color="#6E815F" />
               </TouchableOpacity>
             </View>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginRight: 100,
-              marginLeft: 10,
-            }}
-          >
-            {
-              <FlatList
-                //numColumns={1}
-                data={family}
-                horizontal={true}
-                renderItem={({ item, index }) => (
-                  <Text style={styles.nameStyle}>{item.name}</Text>
-                )}
-                keyExtractor={(item, index) => index}
-              />
-            }
-            {/* {family.map((item, index) => (
-              <Text style={styles.nameStyle}>{item.name}</Text>
-            ))} */}
-          </View>
-
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginRight: 120,
-              marginLeft: 30,
-            }}
-          >
-            {
-              <FlatList
-                //numColumns={1}
-                data={family}
-                horizontal={true}
-                renderItem={({ item, index }) => (
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      marginTop: 10,
-                      marginLeft: 35,
-                      //width: 50,
-                    }}
-                  >
-                    <TouchableOpacity
-                      onPress={() => {
-                        const contact = item.contact.toString();
-                        const arg = {
-                          number: contact,
-                          prompt: true,
-                        };
-                        call(arg).catch(console.error);
-                      }}
-                    >
-                      <Ionicons
-                        name="call"
-                        size={24}
-                        color="#00DB92"
-                        style={{ marginRight: 10 }}
-                      />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                      <AntDesign name="sharealt" size={24} color="black" />
-                    </TouchableOpacity>
-                  </View>
-                )}
-                keyExtractor={(item, index) => index}
-              />
-            }
           </View>
         </View>
         {/* //   )}
@@ -283,74 +282,15 @@ const HouseHold = ({ route }) => {
               marginTop: 10,
             }}
           >
-            {dailyHelp.length != 1 ? (
-              <FlatList
-                //numColumns={1}
-                data={dailyHelp}
-                horizontal={true}
-                renderItem={({ item, index }) => (
+            <FlatList
+              //numColumns={1}
+              data={dailyHelp}
+              horizontal={true}
+              extraData={dailyHelp}
+              renderItem={({ item, index }) => (
+                <View>
                   <View style={styles.smallItemProfile}></View>
-                )}
-                keyExtractor={(item, index) => index}
-              />
-            ) : (
-              <View style={styles.smallItemProfile}></View>
-            )}
-            {/* <View style={styles.smallItemProfile}></View>
-            <View style={styles.smallItemProfile}></View> */}
-            <View>
-              <TouchableOpacity>
-                <AntDesign name="pluscircle" size={50} color="#6E815F" />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginRight: 10,
-              marginLeft: 60,
-            }}
-          >
-            {dailyHelp.length != 1 ? (
-              <FlatList
-                //numColumns={1}
-                data={dailyHelp}
-                horizontal={true}
-                renderItem={({ item, index }) => (
-                  <Text
-                    style={{
-                      marginLeft: 15,
-                      color: "#6E6E6E",
-                      fontWeight: "500",
-                      fontSize: 13,
-                      marginTop: 5,
-                    }}
-                  >
-                    {item.name}
-                  </Text>
-                )}
-                keyExtractor={(item, index) => index}
-              />
-            ) : (
-              <Text style={styles.nameStyle}>{dailyHelp[0].name}</Text>
-            )}
-          </View>
-
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginRight: 100,
-              marginLeft: 30,
-            }}
-          >
-            {dailyHelp.length != 1 ? (
-              <FlatList
-                //numColumns={1}
-                data={dailyHelp}
-                horizontal={true}
-                renderItem={({ item, index }) => (
+                  <Text style={styles.nameStyle}>{item.name}</Text>
                   <View
                     style={{
                       flexDirection: "row",
@@ -380,40 +320,18 @@ const HouseHold = ({ route }) => {
                       <AntDesign name="sharealt" size={24} color="black" />
                     </TouchableOpacity>
                   </View>
-                )}
-                keyExtractor={(item, index) => index}
-              />
-            ) : (
-              <View
-                style={{
-                  flexDirection: "row",
-                  marginTop: 10,
-                  marginLeft: 35,
-                  //width: 50,
-                }}
-              >
-                <TouchableOpacity
-                  onPress={() => {
-                    const contact = item.contact.toString();
-                    const arg = {
-                      number: contact,
-                      prompt: true,
-                    };
-                    call(arg).catch(console.error);
-                  }}
-                >
-                  <Ionicons
-                    name="call"
-                    size={24}
-                    color="#00DB92"
-                    style={{ marginRight: 10 }}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <AntDesign name="sharealt" size={24} color="black" />
-                </TouchableOpacity>
-              </View>
-            )}
+                </View>
+              )}
+              keyExtractor={(item, index) => index}
+            />
+
+            {/* <View style={styles.smallItemProfile}></View>
+            <View style={styles.smallItemProfile}></View> */}
+            <View>
+              <TouchableOpacity>
+                <AntDesign name="pluscircle" size={50} color="#6E815F" />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
 
@@ -435,76 +353,41 @@ const HouseHold = ({ route }) => {
                 //numColumns={1}
                 data={vehicle}
                 horizontal={true}
+                extraData={vehicle}
                 renderItem={({ item, index }) => (
-                  <View style={styles.smallItemProfile}></View>
-                )}
-                keyExtractor={(item, index) => index}
-              />
-            }
-            {/* {family.map((item, index) => (
-              <View style={styles.smallItemProfile}></View>
-            ))} */}
-            <View>
-              <TouchableOpacity>
-                <AntDesign name="pluscircle" size={50} color="#6E815F" />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginRight: 100,
-              marginLeft: 50,
-            }}
-          >
-            {
-              <FlatList
-                //numColumns={1}
-                data={vehicle}
-                horizontal={true}
-                renderItem={({ item, index }) => (
-                  <Text style={styles.nameStyle}>{item.name}</Text>
-                )}
-                keyExtractor={(item, index) => index}
-              />
-            }
-            {/* {family.map((item, index) => (
-              <Text style={styles.nameStyle}>{item.name}</Text>
-            ))} */}
-          </View>
-
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginRight: 120,
-              marginLeft: 70,
-            }}
-          >
-            {
-              <FlatList
-                //numColumns={1}
-                data={vehicle}
-                horizontal={true}
-                renderItem={({ item, index }) => (
-                  <View style={{ flexDirection: "row", marginTop: 10 }}>
-                    <TouchableOpacity>
-                      <MaterialCommunityIcons
-                        name="bell-outline"
-                        size={24}
-                        color="black"
-                        style={{ marginRight: 10, marginLeft: 10 }}
-                      />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                      <Feather name="list" size={24} color="black" />
-                    </TouchableOpacity>
+                  <View>
+                    <View style={styles.smallItemProfile}></View>
+                    <Text style={styles.nameStyle}>{item.name}</Text>
+                    <View style={{ flexDirection: "row", marginTop: 10 }}>
+                      <TouchableOpacity>
+                        <MaterialCommunityIcons
+                          name="bell-outline"
+                          size={24}
+                          color="black"
+                          style={{ marginRight: 10, marginLeft: 10 }}
+                        />
+                      </TouchableOpacity>
+                      <TouchableOpacity>
+                        <Feather name="list" size={24} color="black" />
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 )}
                 keyExtractor={(item, index) => index}
               />
             }
+            <View>
+              <TouchableOpacity
+                onPress={() => {
+                  setModalVisible(true);
+                }}
+              >
+                <AntDesign name="pluscircle" size={50} color="#6E815F" />
+              </TouchableOpacity>
+            </View>
+            {/* {family.map((item, index) => (
+              <View style={styles.smallItemProfile}></View>
+            ))} */}
           </View>
         </View>
 
@@ -526,92 +409,57 @@ const HouseHold = ({ route }) => {
                 //numColumns={1}
                 data={guest}
                 horizontal={true}
+                extraData={guest}
                 renderItem={({ item, index }) => (
-                  <View style={styles.smallItemProfile}></View>
-                )}
-                keyExtractor={(item, index) => index}
-              />
-            }
-            {/* {family.map((item, index) => (
-              <View style={styles.smallItemProfile}></View>
-            ))} */}
-            <View>
-              <TouchableOpacity>
-                <AntDesign name="pluscircle" size={50} color="#6E815F" />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginRight: 100,
-              marginLeft: 10,
-            }}
-          >
-            {
-              <FlatList
-                //numColumns={1}
-                data={guest}
-                horizontal={true}
-                renderItem={({ item, index }) => (
-                  <Text style={styles.nameStyle}>{item.name}</Text>
-                )}
-                keyExtractor={(item, index) => index}
-              />
-            }
-            {/* {family.map((item, index) => (
-              <Text style={styles.nameStyle}>{item.name}</Text>
-            ))} */}
-          </View>
-
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginRight: 120,
-              marginLeft: 30,
-            }}
-          >
-            {
-              <FlatList
-                //numColumns={1}
-                data={guest}
-                horizontal={true}
-                renderItem={({ item, index }) => (
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      marginTop: 10,
-                      marginLeft: 35,
-                      //width: 50,
-                    }}
-                  >
-                    <TouchableOpacity
-                      onPress={() => {
-                        const contact = item.contact.toString();
-                        const arg = {
-                          number: contact,
-                          prompt: true,
-                        };
-                        call(arg).catch(console.error);
+                  <View>
+                    <View style={styles.smallItemProfile}></View>
+                    <Text style={styles.nameStyle}>{item.name}</Text>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        marginTop: 10,
+                        marginLeft: 35,
+                        //width: 50,
                       }}
                     >
-                      <Ionicons
-                        name="call"
-                        size={24}
-                        color="#00DB92"
-                        style={{ marginRight: 10 }}
-                      />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                      <AntDesign name="sharealt" size={24} color="black" />
-                    </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => {
+                          const contact = item.contact.toString();
+                          const arg = {
+                            number: contact,
+                            prompt: true,
+                          };
+                          call(arg).catch(console.error);
+                        }}
+                      >
+                        <Ionicons
+                          name="call"
+                          size={24}
+                          color="#00DB92"
+                          style={{ marginRight: 10 }}
+                        />
+                      </TouchableOpacity>
+                      <TouchableOpacity>
+                        <AntDesign name="sharealt" size={24} color="black" />
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 )}
                 keyExtractor={(item, index) => index}
               />
             }
+            <View>
+              <TouchableOpacity
+                onPress={() => {
+                  setModalVisible(true);
+                }}
+              >
+                <AntDesign name="pluscircle" size={50} color="#6E815F" />
+              </TouchableOpacity>
+            </View>
+            {/* {family.map((item, index) => (
+              <View style={styles.smallItemProfile}></View>
+            ))} */}
           </View>
         </View>
       </View>

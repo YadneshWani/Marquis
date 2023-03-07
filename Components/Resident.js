@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, Text, StyleSheet, FlatList, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DropDownResident from "./DropDownResident";
 import { RadioButton } from "react-native-paper";
@@ -9,9 +9,9 @@ import { SelectList } from "react-native-dropdown-select-list";
 
 let flatData = [];
 // const wingData = [];
-const Resident = () => {
+const Resident = ({ route }) => {
   const wData = [];
-
+  console.log("Resident User Data " + route.params.userData);
   let id = 0;
 
   const fData = [];
@@ -20,19 +20,20 @@ const Resident = () => {
   const [wingData, setWingData] = useState([]);
   const [floorData, setFloorData] = useState([]);
   const [societyArray, setSoceityArray] = useState([]);
+  const [userData, setUserData] = useState(route.params.userData);
   async function getData() {
     const societyData = await getSocietyData();
     if (societyData != undefined) {
       setSoceityArray(societyData.data);
 
-      for (let i = 0; i < societyArray.length; i++) {
-        if (societyArray[i].society_id == "jYzPlMP") {
-          for (let j = 0; j < societyArray[i].wings.length; j++) {
+      for (let i = 0; i < societyData.data.length; i++) {
+        if (societyData.data[i].society_id == userData.society_id) {
+          for (let j = 0; j < societyData.data[i].wings.length; j++) {
             wData.push({
               key: j + 1,
-              value: societyArray[i].wings[j].name,
-              floor: societyArray[i].wings[j].floor,
-              flat: societyArray[i].wings[j].flat_per_floor_count,
+              value: societyData.data[i].wings[j].name,
+              floor: societyData.data[i].wings[j].floor,
+              flat: societyData.data[i].wings[j].flat_per_floor_count,
             });
           }
         }
@@ -106,7 +107,17 @@ const Resident = () => {
     <SafeAreaView style={styles.container}>
       <View>
         <View style={styles.HeaderStyle}>
-          <View style={styles.Profile}></View>
+          {userData.profile_image != null ? (
+            <Image
+              source={{
+                uri: userData.profile_image || userData.profile_image,
+              }}
+              style={styles.Profile}
+            />
+          ) : (
+            <View style={styles.Profile}></View>
+          )}
+
           <View>
             <Text
               style={{
@@ -116,7 +127,7 @@ const Resident = () => {
                 marginLeft: 12,
               }}
             >
-              Your Name
+              {userData.name}
             </Text>
             <Text
               style={{
@@ -126,7 +137,7 @@ const Resident = () => {
                 color: "#434F39",
               }}
             >
-              BA/704
+              {userData.wing_name}/{userData.flat_no}
             </Text>
             <Text style={{ fontWeight: "400", marginLeft: 12, fontSize: 14 }}>
               Resident
@@ -148,7 +159,7 @@ const Resident = () => {
           renderItem={({ item }) => (
             <DropDownResident
               title={item.title}
-              name="1st FLoor"
+              name="1st Floor"
               id={item.id}
               total={item.total}
               flatsData={flatData}
