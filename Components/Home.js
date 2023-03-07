@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
   StyleSheet,
@@ -34,11 +34,32 @@ import NoticeBoard from "./NoticeBoard";
 
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import CustomBottomBar from "./CustomBottomBar";
+import { getUserData } from "../Services/SignInRequest";
 
 const Home = ({ enableBackdropDismiss, show, onDismiss, phoneNumber }) => {
+  let userData = [];
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
+  const [usersData, setUsersData] = useState([]);
+
   console.log("phoneNumber" + phoneNumber);
+  async function getData() {
+    userData = await getUserData();
+    //console.log(userData);
+    for (let i = 0; i < userData.data.length; i++) {
+      //console.log("contact " + userData.data[i].contact);
+      //console.log("phone Number" + phoneNumber);
+      if (userData.data[i].contact == phoneNumber) {
+        setUsersData(userData.data[i]);
+      }
+    }
+    console.log("Home UserData " + usersData);
+  }
+  useEffect(() => {
+    //   getHomeFeedData();
+    getData();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -300,7 +321,9 @@ const Home = ({ enableBackdropDismiss, show, onDismiss, phoneNumber }) => {
               <TouchableOpacity
                 style={{ flex: 1 }}
                 onPress={() => {
-                  navigation.navigate("Resident");
+                  navigation.navigate("Resident", {
+                    userData: usersData,
+                  });
                 }}
               >
                 <FontAwesome5 name="building" size={40} color="#434F39" />
