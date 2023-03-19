@@ -396,9 +396,9 @@ const Home = ({ enableBackdropDismiss, show, onDismiss, phoneNumber }) => {
             >
               <TouchableOpacity
                 style={{ flex: 1 }}
-                // onPress={() => {
-                //   navigation.navigate("DailyHelp");
-                // }}
+                onPress={() => {
+                  navigation.navigate("DailyHelp");
+                }}
               >
                 <MaterialCommunityIcons
                   name="van-utility"

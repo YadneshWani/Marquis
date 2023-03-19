@@ -6,8 +6,10 @@ import DropDownResident from "./DropDownResident";
 import { RadioButton } from "react-native-paper";
 import { getSocietyData } from "../Services/SocietyRequest";
 import { SelectList } from "react-native-dropdown-select-list";
+import { getUserData } from "../Services/SignInRequest";
 
 let flatData = [];
+let societyUserData = [];
 // const wingData = [];
 const Resident = ({ route }) => {
   const wData = [];
@@ -15,6 +17,9 @@ const Resident = ({ route }) => {
   let id = 0;
 
   const fData = [];
+  let societyData = [];
+  let usersData = [];
+
   const [value, setValue] = useState("A");
   const [selected, setSelected] = useState([]);
   const [wingData, setWingData] = useState([]);
@@ -22,7 +27,10 @@ const Resident = ({ route }) => {
   const [societyArray, setSoceityArray] = useState([]);
   const [userData, setUserData] = useState(route.params.userData);
   async function getData() {
-    const societyData = await getSocietyData();
+    societyData = await getSocietyData();
+    usersData = await getUserData();
+
+    console.log("Users Data " + usersData.data);
     if (societyData != undefined) {
       setSoceityArray(societyData.data);
 
@@ -36,9 +44,24 @@ const Resident = ({ route }) => {
               flat: societyData.data[i].wings[j].flat_per_floor_count,
             });
           }
+
+          setWingData(wData);
         }
-        setWingData(wData);
       }
+      for (let j = 0; j < usersData.data.length; j++) {
+        console.log("Inside new FOr loop ...");
+        if (usersData.data[j].society_id == userData.society_id) {
+          console.log("inside......");
+
+          societyUserData.push({
+            id: parseInt(usersData.data[j].floor),
+            name: usersData.data[j].name,
+            flat_no: usersData.data[j].flat_no,
+            wing: usersData.data[j].wing_name,
+          });
+        }
+      }
+      societyUserData.sort((a, b) => (a.flat_no > b.flat_no ? 1 : -1));
     } else {
       console.log("undefined");
     }
@@ -50,7 +73,7 @@ const Resident = ({ route }) => {
 
   const displayFloors = () => {
     let id1 = 0;
-    flatData = [];
+    //flatData = [];
     console.log("inside display ");
     for (let j = 0; j < wingData.length; j++) {
       console.log("inside j for ");
@@ -60,15 +83,26 @@ const Resident = ({ route }) => {
             fData.push({
               id: ++id,
               title: k + 1 + " Floor",
-              name: "lorem Ipsum",
               total: wingData[j].flat,
             });
-            if (k < wingData[j].flat) {
-              flatData.push({
-                id: ++id1,
-                name: "Lorem Ipsum",
-              });
+            flatData[k] = [];
+            for (let x = 0; x < societyUserData.length; x++) {
+              if (selected == societyUserData[x].wing) {
+                if (societyUserData[x].id == k + 1) {
+                  flatData[k].push({
+                    id: ++id,
+                    name:
+                      societyUserData[x].name +
+                      " " +
+                      societyUserData[x].flat_no,
+                  });
+                }
+              }
             }
+            // flatData.push({
+            //   id: ++id1,
+            //   name: "Yadnesh Wani 503",
+            // });
           }
           // for (let i = 0; i < wingData[j].flat; i++) {
           //   flatData.push({
@@ -81,6 +115,8 @@ const Resident = ({ route }) => {
     }
 
     console.log("Floor Data " + flatData);
+
+    console.log("Soceity Users Data " + societyUserData);
     setFloorData(fData);
   };
   // for (let i = 0; i < societyArray.length; i++) {
@@ -98,8 +134,8 @@ const Resident = ({ route }) => {
   // console.log(fData);
   // setFloorData(fData);
 
-  console.log("Society Array " + selected);
-  console.log("Flat Data 1 " + flatData);
+  console.log("Selected Wing " + selected);
+  console.log("Flat Data  " + flatData);
   //console.log("selected Data " + selected);
 
   // console.log(value);
@@ -156,13 +192,13 @@ const Resident = ({ route }) => {
         <FlatList
           data={floorData}
           keyExtractor={(item, index) => item.id.toString()}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <DropDownResident
               title={item.title}
-              name="1st Floor"
+              //name="1st Floor"
               id={item.id}
               total={item.total}
-              flatsData={flatData}
+              flatsData={flatData[index]}
 
               // flag="true"
             />

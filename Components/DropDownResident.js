@@ -8,7 +8,7 @@ import { getSocietyData } from "../Services/SocietyRequest";
 const DropDownResident = ({ title, name, flatsData }) => {
   let id = 0;
   const fData = [];
-  console.log("flats Data.." + flatsData.length);
+  console.log("flats Data.." + flatsData);
   const [flatData, setFlatData] = useState([]);
 
   // setFlatData(flatsData);
@@ -95,7 +95,7 @@ const DropDownResident = ({ title, name, flatsData }) => {
                       Owner
                     </Text>
                     <Text style={{ fontWeight: "700", fontSize: 16 }}>
-                      Lorem Ipsum
+                      {item.name}
                     </Text>
                   </View>
                 </View>
