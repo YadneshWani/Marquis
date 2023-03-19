@@ -48,6 +48,7 @@ const Resident = ({ route }) => {
           setWingData(wData);
         }
       }
+      societyUserData = [];
       for (let j = 0; j < usersData.data.length; j++) {
         console.log("Inside new FOr loop ...");
         if (usersData.data[j].society_id == userData.society_id) {
@@ -58,6 +59,7 @@ const Resident = ({ route }) => {
             name: usersData.data[j].name,
             flat_no: usersData.data[j].flat_no,
             wing: usersData.data[j].wing_name,
+            image: usersData.data[j].profile_image,
           });
         }
       }
@@ -73,7 +75,7 @@ const Resident = ({ route }) => {
 
   const displayFloors = () => {
     let id1 = 0;
-    //flatData = [];
+    flatData = [];
     console.log("inside display ");
     for (let j = 0; j < wingData.length; j++) {
       console.log("inside j for ");
@@ -95,6 +97,7 @@ const Resident = ({ route }) => {
                       societyUserData[x].name +
                       " " +
                       societyUserData[x].flat_no,
+                    image: societyUserData[x].image,
                   });
                 }
               }

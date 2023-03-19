@@ -1,5 +1,12 @@
 import React, { useRef, useEffect } from "react";
-import { View, Text, StyleSheet, FlatList, Animated } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Animated,
+  Image,
+} from "react-native";
 import { TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useState } from "react";
@@ -83,7 +90,17 @@ const DropDownResident = ({ title, name, flatsData }) => {
             {showContent && (
               <View style={styles.body}>
                 <View style={styles.bodyContentStyle}>
-                  <View style={styles.smallItemProfile}></View>
+                  {item.image != null ? (
+                    <Image
+                      source={{
+                        uri: item.image || item.image,
+                      }}
+                      style={styles.smallItemProfile}
+                    />
+                  ) : (
+                    <View style={styles.smallItemProfile}></View>
+                  )}
+                  {/* <View style={styles.smallItemProfile}></View> */}
                   <View style={{ marginTop: 10 }}>
                     <Text
                       style={{
