@@ -73,6 +73,17 @@ const SignIn = () => {
         // console.log("inside map if ");
         // setPresent("yes");
       }
+      console.log("Household" + user.household.length);
+      for (let i = 0; i < user.household.length; i++) {
+        let householdPhoneNumber = user.household[i].contact;
+        householdPhoneNumber = "+91" + householdPhoneNumber;
+        if (householdPhoneNumber == phoneNumber.toString()) {
+          console.log("yes you can log in...");
+          p = "yes";
+          pno = user.contact;
+          break;
+        }
+      }
     });
     console.log("singIn " + pno);
     sendVerification();

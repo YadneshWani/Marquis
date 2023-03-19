@@ -139,7 +139,9 @@ const Home = ({ enableBackdropDismiss, show, onDismiss, phoneNumber }) => {
 
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate("Invites");
+                  navigation.navigate("Invites", {
+                    userData: usersData,
+                  });
                 }}
               >
                 <ImageBackground
@@ -384,18 +386,34 @@ const Home = ({ enableBackdropDismiss, show, onDismiss, phoneNumber }) => {
               </Text>
             </View>
 
-            <View style={{ flex: 1, flexDirection: "row", marginLeft: 50 }}>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                marginLeft: 50,
+                justifyContent: "space-between",
+              }}
+            >
               <TouchableOpacity
                 style={{ flex: 1 }}
-                onPress={() => {
-                  navigation.navigate("DailyHelp");
-                }}
+                // onPress={() => {
+                //   navigation.navigate("DailyHelp");
+                // }}
               >
                 <MaterialCommunityIcons
                   name="van-utility"
                   size={40}
                   color="#434F39"
                 />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={{ flex: 1 }}
+                onPress={() => {
+                  navigation.navigate("Game");
+                }}
+              >
+                <MaterialIcons name="games" size={40} color="#434F39" />
               </TouchableOpacity>
 
               <TouchableOpacity style={{ flex: 1 }}>
@@ -416,7 +434,6 @@ const Home = ({ enableBackdropDismiss, show, onDismiss, phoneNumber }) => {
                   />
                 </ImageBackground>
               </TouchableOpacity>
-              <View style={{ flex: 1 }}></View>
             </View>
 
             <View style={{ flex: 1, flexDirection: "row", marginLeft: 0 }}>
@@ -431,26 +448,30 @@ const Home = ({ enableBackdropDismiss, show, onDismiss, phoneNumber }) => {
               >
                 Daily Help
               </Text>
+
               <Text
                 style={{
                   flex: 1,
                   fontWeight: "400",
                   fontSize: 12,
                   lineHeight: 14,
-                  marginLeft: 28,
+                  marginLeft: 15,
+                }}
+              >
+                Games
+              </Text>
+
+              <Text
+                style={{
+                  flex: 1,
+                  fontWeight: "400",
+                  fontSize: 12,
+                  lineHeight: 14,
+                  marginRight: 10,
                 }}
               >
                 View All
               </Text>
-              <Text
-                style={{
-                  flex: 1,
-                  fontWeight: "400",
-                  fontSize: 12,
-                  lineHeight: 14,
-                  marginLeft: 40,
-                }}
-              ></Text>
             </View>
           </View>
 
@@ -688,4 +709,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
+
 export default Home;

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  Share,
 } from "react-native";
 import background from "../assets/Images/Background.png";
 import { EvilIcons } from "@expo/vector-icons";
@@ -46,6 +47,7 @@ const Profile = ({ phoneNumber }) => {
   const [vehicleData, setVehicleData] = useState([]);
 
   console.log("profile Phone " + phoneNumber);
+
   async function getData() {
     userData = await getUserData();
     console.log(userData);

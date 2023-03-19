@@ -33,6 +33,10 @@ import { View, Dimensions, Text } from "react-native";
 import BottomSheetScreen from "./Components/BottomSheetScreen";
 import RegisterScreen from "./Components/Register";
 
+import GameScreen from "./Components/Game";
+import WheelScreen from "./Components/SpinTheWheel/Wheel";
+import Game2048Screen from "./Components/Game2048/GameController";
+
 //import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Modal } from "react-native-paper";
@@ -158,6 +162,21 @@ const MyStack = () => {
               options={{ title: "Register" }}
               name="Register"
               component={RegisterScreen}
+            />
+            <Stack.Screen
+              options={{ title: "Games" }}
+              name="Game"
+              component={GameScreen}
+            />
+            <Stack.Screen
+              options={{ title: "Spin The Wheel" }}
+              name="Wheel"
+              component={WheelScreen}
+            />
+            <Stack.Screen
+              options={{ title: "2048 Game" }}
+              name="GameController"
+              component={Game2048Screen}
             />
           </Stack.Group>
           <Stack.Group

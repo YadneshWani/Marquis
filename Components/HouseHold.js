@@ -8,6 +8,8 @@ import {
   ActivityIndicator,
   Image,
   Modal,
+  Share,
+  Alert,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { ImageBackground } from "react-native";
@@ -42,6 +44,27 @@ const HouseHold = ({ route }) => {
   let phoneNumber = route.params.phoneNumber;
   console.log("Household Phone numebr :" + phoneNumber);
   // const [HouseHoldData, setHouseHoldData] = useState([]);
+
+  //  share address
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: "Test",
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      Alert.alert(error.message);
+    }
+  };
+
   async function getData() {
     //userData = await getUserData();
     //const navigation = useNavigation();
@@ -168,7 +191,7 @@ const HouseHold = ({ route }) => {
             >
               {title}
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={onShare}>
               <Text
                 style={{
                   fontWeight: "400",
