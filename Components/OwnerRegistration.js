@@ -1,5 +1,6 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import { StatusBar } from "expo-status-bar";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   StyleSheet,
@@ -7,10 +8,19 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Button,
 } from "react-native";
 // import Toast from "react-native-simple-toast";
 import { SelectList } from "react-native-dropdown-select-list";
+
 import { getUserData } from "../Services/SignInRequest";
+
+// import { DocumentPicker } from "react-native-document-picker";
+import * as DocumentPicker from "expo-document-picker";
+// import {
+//   DocumentPickerOptions,
+//   DocumentPickerResponse,
+// } from "react-native-document-picker";
 
 import { getSocietyData } from "../Services/SocietyRequest";
 const OwnerRegistration = ({ societyNames, imageURI }) => {
@@ -23,6 +33,7 @@ const OwnerRegistration = ({ societyNames, imageURI }) => {
   const [name, setName] = useState("");
   const [mailId, setMailId] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [fileResponse, setFileResponse] = useState([]);
   let societyId;
   //let sname;
   let wingName = "";
@@ -121,6 +132,7 @@ const OwnerRegistration = ({ societyNames, imageURI }) => {
         wing_name: wingName,
         floor: floorNumber,
         society_id: societyId,
+
         type: "Owner",
       },
     });
@@ -136,6 +148,31 @@ const OwnerRegistration = ({ societyNames, imageURI }) => {
     // Toast.show("User Added Successfully..");
     alert("User added Successfully...");
   };
+
+  //Document Selector
+
+  const handleUpload = async () => {
+    try {
+      const response = await DocumentPicker.getDocumentAsync();
+      console.log("File URI: " + JSON.stringify(response));
+      setFileResponse(response);
+      console.log("File Response " + fileResponse.uri);
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+  // const handleDocumentSelection = useCallback(async () => {
+  //   try {
+  //     const response = await DocumentPicker.pickSingle({
+  //       presentationStyle: "fullScreen",
+  //     });
+  //     setFileResponse(response);
+  //     console.log("response " + response);
+  //   } catch (err) {
+  //     console.warn(err);
+  //   }
+  // }, []);
+
   return (
     <View>
       <TextInput
@@ -267,6 +304,11 @@ const OwnerRegistration = ({ societyNames, imageURI }) => {
         dropdownStyles={{ width: 350 }}
         maxHeight={80}
       />
+      <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+        <StatusBar barStyle={"dark-content"} />
+        <Text>{fileResponse.name}</Text>
+        <Button title="Upload Documents" onPress={handleUpload} />
+      </View>
       <TouchableOpacity onPress={addUser}>
         <View style={styles.SubmitBtn}>
           <Text
@@ -301,7 +343,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 60,
     backgroundColor: "#6E815F",
-    marginTop: 30,
+    marginTop: 0,
     borderRadius: 12,
     alignSelf: "center",
     alignItems: "center",

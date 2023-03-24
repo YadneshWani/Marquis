@@ -7,9 +7,11 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Button,
 } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
 import { getUserData } from "../Services/SignInRequest";
+import * as DocumentPicker from "expo-document-picker";
 
 import { getSocietyData } from "../Services/SocietyRequest";
 const TenantRegistration = ({ societyNames, imageURI }) => {
@@ -22,6 +24,7 @@ const TenantRegistration = ({ societyNames, imageURI }) => {
   const [name, setName] = useState("");
   const [mailId, setMailId] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [fileResponse, setFileResponse] = useState([]);
   let societyId;
   //let sname;
   let wingName = "";
@@ -133,6 +136,19 @@ const TenantRegistration = ({ societyNames, imageURI }) => {
     console.log("flat Number " + flatNumber);
     console.log("type Tenant");
     alert("User added Successfully...");
+  };
+
+  //document Selector
+
+  const handleUpload = async () => {
+    try {
+      const response = await DocumentPicker.getDocumentAsync();
+      console.log("File URI: " + JSON.stringify(response));
+      setFileResponse(response);
+      console.log("File Response " + fileResponse.uri);
+    } catch (err) {
+      console.warn(err);
+    }
   };
   return (
     <View>
@@ -265,6 +281,10 @@ const TenantRegistration = ({ societyNames, imageURI }) => {
         dropdownStyles={{ width: 350 }}
         maxHeight={80}
       />
+      <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+        <Text>{fileResponse.name}</Text>
+        <Button title="Upload Documents" onPress={handleUpload} />
+      </View>
       <TouchableOpacity onPress={addUser}>
         <View style={styles.SubmitBtn}>
           <Text
@@ -299,7 +319,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 60,
     backgroundColor: "#6E815F",
-    marginTop: 30,
+    marginTop: 0,
     borderRadius: 12,
     alignSelf: "center",
     alignItems: "center",

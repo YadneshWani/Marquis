@@ -32,6 +32,7 @@
     "react-native": "0.69.6",
     "react-native-btr": "^2.2.0",
     "react-native-date-picker": "^4.2.6",
+    "react-native-document-picker": "^8.2.0",
     "react-native-dropdown-select-list": "^2.0.4",
     "react-native-game-engine": "^1.2.0",
     "react-native-gesture-handler": "^2.9.0",
@@ -51,7 +52,8 @@
     "react-native-tab-view": "^3.3.0",
     "react-native-vector-icons": "^9.2.0",
     "react-native-webview": "^11.26.1",
-    "react-native-wheel-of-fortune": "^1.5.4"
+    "react-native-wheel-of-fortune": "^1.5.4",
+    "expo-document-picker": "~10.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
