@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Text, TextInput, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TextInput,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { TouchableOpacity } from "react-native-gesture-handler";
+// import { } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import SignIn from "./SignIn";
 import Register from "./Register";

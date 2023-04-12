@@ -35,12 +35,14 @@ import NoticeBoard from "./NoticeBoard";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import CustomBottomBar from "./CustomBottomBar";
 import { getUserData } from "../Services/SignInRequest";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Home = ({ enableBackdropDismiss, show, onDismiss, phoneNumber }) => {
   let userData = [];
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [usersData, setUsersData] = useState([]);
+  const [verified, setVerified] = useState(false);
 
   console.log("phoneNumber" + phoneNumber);
   async function getData() {
@@ -51,7 +53,16 @@ const Home = ({ enableBackdropDismiss, show, onDismiss, phoneNumber }) => {
       //console.log("phone Number" + phoneNumber);
       if (userData.data[i].contact == phoneNumber) {
         setUsersData(userData.data[i]);
+        setVerified(userData.data[i].verified);
+        console.log("Verified  :" + verified);
       }
+    }
+    try {
+      await AsyncStorage.setItem("verified", verified.toString());
+      const value = await AsyncStorage.getItem("verified");
+      console.log("Value :" + value);
+    } catch (err) {
+      console.log(err);
     }
     console.log("Home UserData " + usersData);
   }
@@ -106,6 +117,7 @@ const Home = ({ enableBackdropDismiss, show, onDismiss, phoneNumber }) => {
 
             <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
               <TouchableOpacity
+                disabled={!verified}
                 onPress={() => {
                   navigation.navigate("DailyHelp");
                 }}
@@ -124,7 +136,10 @@ const Home = ({ enableBackdropDismiss, show, onDismiss, phoneNumber }) => {
                 </ImageBackground>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <TouchableOpacity
+                disabled={!verified}
+                onPress={() => setModalVisible(true)}
+              >
                 <ImageBackground
                   source={background}
                   resizeMode="cover"
@@ -138,6 +153,7 @@ const Home = ({ enableBackdropDismiss, show, onDismiss, phoneNumber }) => {
               </TouchableOpacity>
 
               <TouchableOpacity
+                disabled={!verified}
                 onPress={() => {
                   navigation.navigate("Invites", {
                     userData: usersData,
@@ -158,6 +174,7 @@ const Home = ({ enableBackdropDismiss, show, onDismiss, phoneNumber }) => {
               </TouchableOpacity>
 
               <TouchableOpacity
+                disabled={!verified}
                 onPress={() => {
                   navigation.navigate("ViewAll");
                 }}
@@ -241,6 +258,7 @@ const Home = ({ enableBackdropDismiss, show, onDismiss, phoneNumber }) => {
               }}
             >
               <TouchableOpacity
+                disabled={!verified}
                 style={{ marginTop: 0, flex: 1 }}
                 onPress={() => {
                   navigation.navigate("Communication", {
@@ -256,6 +274,7 @@ const Home = ({ enableBackdropDismiss, show, onDismiss, phoneNumber }) => {
               </TouchableOpacity>
 
               <TouchableOpacity
+                disabled={!verified}
                 style={{ flex: 1 }}
                 onPress={() => {
                   navigation.navigate("HelpDesk");
@@ -265,6 +284,7 @@ const Home = ({ enableBackdropDismiss, show, onDismiss, phoneNumber }) => {
               </TouchableOpacity>
 
               <TouchableOpacity
+                disabled={!verified}
                 style={{ flex: 1 }}
                 onPress={() => {
                   navigation.navigate("EmergencyNumber", {
@@ -332,6 +352,7 @@ const Home = ({ enableBackdropDismiss, show, onDismiss, phoneNumber }) => {
               </TouchableOpacity>
 
               <TouchableOpacity
+                disabled={!verified}
                 style={{ flex: 1 }}
                 onPress={() => {
                   navigation.navigate("Document");
@@ -341,6 +362,7 @@ const Home = ({ enableBackdropDismiss, show, onDismiss, phoneNumber }) => {
               </TouchableOpacity>
 
               <TouchableOpacity
+                disabled={!verified}
                 style={{ flex: 1 }}
                 onPress={() => {
                   navigation.navigate("Amenities");
@@ -395,6 +417,7 @@ const Home = ({ enableBackdropDismiss, show, onDismiss, phoneNumber }) => {
               }}
             >
               <TouchableOpacity
+                disabled={!verified}
                 style={{ flex: 1 }}
                 onPress={() => {
                   navigation.navigate("DailyHelp");
@@ -408,6 +431,7 @@ const Home = ({ enableBackdropDismiss, show, onDismiss, phoneNumber }) => {
               </TouchableOpacity>
 
               <TouchableOpacity
+                disabled={!verified}
                 style={{ flex: 1 }}
                 onPress={() => {
                   navigation.navigate("Game");
@@ -416,7 +440,7 @@ const Home = ({ enableBackdropDismiss, show, onDismiss, phoneNumber }) => {
                 <MaterialIcons name="games" size={40} color="#434F39" />
               </TouchableOpacity>
 
-              <TouchableOpacity style={{ flex: 1 }}>
+              <TouchableOpacity style={{ flex: 1 }} disabled={!verified}>
                 <ImageBackground
                   source={background}
                   resizeMode="cover"

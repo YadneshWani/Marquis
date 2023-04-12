@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Button,
+  Alert,
 } from "react-native";
 // import Toast from "react-native-simple-toast";
 import { SelectList } from "react-native-dropdown-select-list";
@@ -23,6 +24,9 @@ import * as DocumentPicker from "expo-document-picker";
 // } from "react-native-document-picker";
 
 import { getSocietyData } from "../Services/SocietyRequest";
+import { firebaseConfig } from "../config";
+import firebase from "firebase/compat/app";
+
 const OwnerRegistration = ({ societyNames, imageURI }) => {
   let societyData;
   let societyArray = [];
@@ -34,6 +38,7 @@ const OwnerRegistration = ({ societyNames, imageURI }) => {
   const [mailId, setMailId] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [fileResponse, setFileResponse] = useState([]);
+  const [upload, setUpload] = useState(false);
   let societyId;
   //let sname;
   let wingName = "";
@@ -46,6 +51,7 @@ const OwnerRegistration = ({ societyNames, imageURI }) => {
     userData = await getUserData();
     societyName = val;
     societyArray = societyData.data;
+    setFileResponse(null);
     wData.length = 0;
     for (let i = 0; i < societyArray.length; i++) {
       if (societyArray[i].name == val) {
@@ -132,7 +138,7 @@ const OwnerRegistration = ({ societyNames, imageURI }) => {
         wing_name: wingName,
         floor: floorNumber,
         society_id: societyId,
-
+        ownership_documents: fileResponse.uri,
         type: "Owner",
       },
     });
@@ -145,6 +151,7 @@ const OwnerRegistration = ({ societyNames, imageURI }) => {
     console.log("floor Number " + floorNumber);
     console.log("flat Number " + flatNumber);
     console.log("type Owner");
+    console.log("File Response 2" + fileResponse.uri);
     // Toast.show("User Added Successfully..");
     alert("User added Successfully...");
   };
@@ -157,8 +164,32 @@ const OwnerRegistration = ({ societyNames, imageURI }) => {
       console.log("File URI: " + JSON.stringify(response));
       setFileResponse(response);
       console.log("File Response " + fileResponse.uri);
+      setUpload(true);
     } catch (err) {
       console.warn(err);
+    }
+  };
+
+  // upload Document
+
+  const uploadDocument = async () => {
+    if (fileResponse == null) alert("Please Select File...");
+    else {
+      console.log("fileresponse  : " + fileResponse.uri);
+      const response = await fetch(fileResponse.uri);
+      const blob = await response.blob();
+      const filename = fileResponse.uri.substring(
+        fileResponse.uri.lastIndexOf("/") + 1
+      );
+      var ref = firebase.storage().ref().child(filename).put(blob);
+
+      try {
+        await ref;
+      } catch (e) {
+        console.log(e);
+      }
+      Alert.alert("File Uploaded..!!");
+      setUpload(false);
     }
   };
   // const handleDocumentSelection = useCallback(async () => {
@@ -307,7 +338,11 @@ const OwnerRegistration = ({ societyNames, imageURI }) => {
       <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
         <StatusBar barStyle={"dark-content"} />
         <Text>{fileResponse.name}</Text>
-        <Button title="Upload Documents" onPress={handleUpload} />
+        {upload ? (
+          <Button title="Upload Documents" onPress={uploadDocument} />
+        ) : (
+          <Button title="Select Documents" onPress={handleUpload} />
+        )}
       </View>
       <TouchableOpacity onPress={addUser}>
         <View style={styles.SubmitBtn}>

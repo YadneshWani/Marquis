@@ -48,8 +48,15 @@ const Profile = ({ phoneNumber }) => {
 
   console.log("profile Phone " + phoneNumber);
 
-  async function getData() {
+  const getAsyncData = async () => {
     userData = await getUserData();
+    // try {
+    //   let uData = await AsyncStorage.getItem("userData");
+    //   userData = JSON.parse(uData);
+    //   console.log("JSON User Data " + uData);
+    // } catch (err) {
+    //   console.warn(err);
+    // }
     console.log(userData);
     for (let i = 0; i < userData.data.length; i++) {
       //console.log("contact " + userData.data[i].contact);
@@ -86,10 +93,10 @@ const Profile = ({ phoneNumber }) => {
     console.log("Family Data " + familyData);
     setFamilysData(familyData);
     setVehicleData(vData);
-  }
+  };
   useEffect(() => {
     //   getHomeFeedData();
-    getData();
+    getAsyncData();
   }, []);
 
   const pickImage = async () => {

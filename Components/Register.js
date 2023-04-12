@@ -1,8 +1,16 @@
 import react, { useState, useEffect } from "react";
 
-import { View, StyleSheet, Text, TextInput, Image } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+// import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import OwnerRegistration from "./OwnerRegistration";
 import TenantRegistration from "./TenantRegistration";
 import { MaterialIcons } from "@expo/vector-icons";

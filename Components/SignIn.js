@@ -1,6 +1,15 @@
 import React, { useRef, useState, useEffect } from "react";
-import { View, StyleSheet, Text, TextInput, Alert } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TextInput,
+  Alert,
+  Platform,
+  ToastAndroid,
+  TouchableOpacity,
+} from "react-native";
+// import { TouchableOpacity } from "react-native-gesture-handler";
 import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
 import { firebaseConfig } from "../config";
 import firebase from "firebase/compat/app";
@@ -19,11 +28,12 @@ const SignIn = () => {
   const [state, setState] = useState("send");
   const recaptchaVerifier = useRef(null);
   const navigation = useNavigation();
-  let userData;
+  let userData = [];
   let p = "no";
 
   async function getData() {
     userData = await getUserData();
+    console.log("User Data 1111" + userData);
     setUserArray(userData.data);
     console.log("phone Number " + userData.data[1].contact);
   }
@@ -37,6 +47,8 @@ const SignIn = () => {
     console.log("inside set item");
     try {
       await AsyncStorage.setItem("phone_number", pno);
+      console.log("Just before Storing .." + userData);
+      //await AsyncStorage.setItem("userData", JSON.stringify(userData));
     } catch (e) {
       alert(e);
     }
@@ -45,6 +57,8 @@ const SignIn = () => {
   const getAsyncData = async () => {
     try {
       const value = await AsyncStorage.getItem("phone_number");
+      const uData = await AsyncStorage.getItem("userData");
+      console.log("User Data Json Format " + uData);
       console.log("value =====" + value);
       if (value !== null) {
         console.log("value " + value);
@@ -109,7 +123,9 @@ const SignIn = () => {
       setState("verify");
       p = "no";
     } else {
-      alert("User not registered");
+      if (Platform.OS == "ios") Alert.alert("User not registered");
+      else if (Platform.OS == "android")
+        ToastAndroid.show("User not Rregistered ", ToastAndroid.SHORT);
       setPhoneNumber("");
     }
   };
